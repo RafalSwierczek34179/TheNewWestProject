@@ -24,7 +24,9 @@ void UInteractableActorComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	// Subscribes the actor which this component sits on to the players interact event
+	ATheNewWestProjectCharacter* playersCharClass = Cast<ATheNewWestProjectCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	playersCharClass->AddToInteractEventSubscribers(GetOwner());
 	
 }
 
@@ -37,11 +39,5 @@ void UInteractableActorComponent::TickComponent(float DeltaTime, ELevelTick Tick
 	// ...
 }
 
-/** Subscribes the passed actor to the players interact event */
-void UInteractableActorComponent::SubscribeToPlayersInteractEvent(AActor* subscriber)
-{
-	ATheNewWestProjectCharacter* playersCharClass = Cast<ATheNewWestProjectCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	playersCharClass->AddToInteractEventSubscribers(subscriber);
-}
 
 

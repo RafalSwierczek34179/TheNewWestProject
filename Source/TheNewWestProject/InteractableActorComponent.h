@@ -23,9 +23,4 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-protected:
-	/** Subscribes the passed actor to the players interact event */
-	UFUNCTION(BlueprintCallable, Category=Interaction)
-	void SubscribeToPlayersInteractEvent(AActor* subscriber);	
-};
+};	
