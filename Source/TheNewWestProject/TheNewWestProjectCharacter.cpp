@@ -1,12 +1,15 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "TheNewWestProjectCharacter.h"
+
 #include "TheNewWestProjectProjectile.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+
+#include "Misc/OutputDeviceNull.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -104,7 +107,22 @@ void ATheNewWestProjectCharacter::Look(const FInputActionValue& Value)
 
 void ATheNewWestProjectCharacter::Interact(const FInputActionValue& Value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("interact is working"));
+	if (interactEventSubscribers.IsEmpty())
+	{
+		return;
+	}
+	
+	FOutputDeviceNull nullOutDevice;
+	const FString interactFunctionName = FString::Printf(TEXT("InteractionTriggered"));
+
+	// Notify all subscribers of the interact event that it has been triggered
+	for (AActor* subscriber : interactEventSubscribers)
+	{
+		if (!subscriber->CallFunctionByNameWithArguments(*interactFunctionName, nullOutDevice, NULL, true))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Interact Event subscriber failed to be notified in TheNewWestProjectCharacter.cpp Interact()"));
+		}
+	}
 }
 
 
@@ -116,4 +134,9 @@ void ATheNewWestProjectCharacter::SetHasRifle(bool bNewHasRifle)
 bool ATheNewWestProjectCharacter::GetHasRifle()
 {
 	return bHasRifle;
+}
+
+void ATheNewWestProjectCharacter::AddToInteractEventSubscribers(AActor* newSubscriber)
+{
+	interactEventSubscribers.Add(newSubscriber);
 }

@@ -88,6 +88,13 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
+private:
+	// Array of actors that need to be notified when an interact event runs
+	TArray<AActor*> interactEventSubscribers;
+
+public:
+	void AddToInteractEventSubscribers(AActor* newSubscriber);
+
 
 };
 
