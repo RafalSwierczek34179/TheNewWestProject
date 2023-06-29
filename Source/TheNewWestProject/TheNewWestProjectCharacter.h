@@ -39,6 +39,9 @@ class ATheNewWestProjectCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
 
+	/** Interact Input Action*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* InteractAction;
 	
 public:
 	ATheNewWestProjectCharacter();
@@ -70,6 +73,9 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	/** Called for interaction input*/
+	void Interact(const FInputActionValue& Value);
 
 protected:
 	// APawn interface

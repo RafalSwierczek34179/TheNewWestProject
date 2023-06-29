@@ -69,6 +69,9 @@ void ATheNewWestProjectCharacter::SetupPlayerInputComponent(class UInputComponen
 
 		//Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ATheNewWestProjectCharacter::Look);
+
+		//Interacting
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::Interact);
 	}
 }
 
@@ -98,6 +101,12 @@ void ATheNewWestProjectCharacter::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
 }
+
+void ATheNewWestProjectCharacter::Interact(const FInputActionValue& Value)
+{
+	UE_LOG(LogTemp, Warning, TEXT("interact is working"));
+}
+
 
 void ATheNewWestProjectCharacter::SetHasRifle(bool bNewHasRifle)
 {
