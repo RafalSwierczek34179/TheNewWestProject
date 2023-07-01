@@ -84,6 +84,13 @@ void ATheNewWestProjectCharacter::Move(const FInputActionValue& Value)
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
+	// Switches to ship control
+	if (playerControllingShip && shipControlComp != nullptr)
+	{
+		shipControlComp->Move(MovementVector);
+		return;
+	}
+
 	if (Controller != nullptr)
 	{
 		// add movement 
@@ -97,6 +104,13 @@ void ATheNewWestProjectCharacter::Look(const FInputActionValue& Value)
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
+	// Switches to ship control
+	if (playerControllingShip && shipControlComp != nullptr)
+	{
+		shipControlComp->Look(LookAxisVector);
+		return;
+	}
+	
 	if (Controller != nullptr)
 	{
 		// add yaw and pitch input to controller
@@ -140,3 +154,22 @@ void ATheNewWestProjectCharacter::AddToInteractEventSubscribers(AActor* newSubsc
 {
 	interactEventSubscribers.Add(newSubscriber);
 }
+
+//-----------------Players Ship------------------------------------------
+bool ATheNewWestProjectCharacter::GetIsPlayerControllingShip()
+{
+	return playerControllingShip;
+}
+
+void ATheNewWestProjectCharacter::SetShipControlComp(UShipControlComponent* playersShipControlComp)
+{
+	shipControlComp = playersShipControlComp;
+}
+
+void ATheNewWestProjectCharacter::ToggleShipControlling()
+{
+	playerControllingShip = !playerControllingShip;
+}
+
+
+

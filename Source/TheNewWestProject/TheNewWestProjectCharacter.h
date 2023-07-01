@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "ShipControlComponent.h"
 #include "TheNewWestProjectCharacter.generated.h"
 
 class UInputComponent;
@@ -88,10 +89,31 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
+
+
+//------------------Ship Controls----------------------------------------------
+public:
+	UFUNCTION(BlueprintCallable, Category=PlayersShip)
+	bool GetIsPlayerControllingShip();
+
+	UFUNCTION(BlueprintCallable, Category=PlayersShip)
+	void SetShipControlComp(UShipControlComponent* playersShipControlComp);
+
+	UFUNCTION(BlueprintCallable, Category=PlayersShip)
+	void ToggleShipControlling();
+	
+private:
+	// Has Move() and Look() functions for the ship
+	UShipControlComponent* shipControlComp;
+
+	bool playerControllingShip;
+
+
+	
+// -------------------Interacting---------------------------------------------	
 private:
 	// Array of actors that need to be notified when an interact event runs
 	TArray<AActor*> interactEventSubscribers;
-
 public:
 	void AddToInteractEventSubscribers(AActor* newSubscriber);
 
