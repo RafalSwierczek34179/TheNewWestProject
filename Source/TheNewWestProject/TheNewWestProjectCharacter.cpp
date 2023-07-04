@@ -75,6 +75,8 @@ void ATheNewWestProjectCharacter::SetupPlayerInputComponent(class UInputComponen
 
 		//Interacting
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::Interact);
+
+		EnhancedInputComponent->BindAction(CallShipAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::CallShip);
 	}
 }
 
@@ -126,19 +128,28 @@ void ATheNewWestProjectCharacter::Interact(const FInputActionValue& Value)
 		return;
 	}
 	
-	FOutputDeviceNull nullOutDevice;
 	const FString interactFunctionName = FString::Printf(TEXT("InteractionTriggered"));
 
 	// Notify all subscribers of the interact event that it has been triggered
 	for (AActor* subscriber : interactEventSubscribers)
 	{
-		if (!subscriber->CallFunctionByNameWithArguments(*interactFunctionName, nullOutDevice, NULL, true))
+		if (!CallBPFunction(subscriber, interactFunctionName))
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Interact Event subscriber failed to be notified in TheNewWestProjectCharacter.cpp Interact()"));
 		}
 	}
 }
 
+void ATheNewWestProjectCharacter::CallShip(const FInputActionValue& Value)
+{
+	AActor* ship = shipControlComp->GetOwner();
+	FString CallShipFuncName = FString::Printf(TEXT("CallShip"));
+
+	if(!CallBPFunction(ship, CallShipFuncName))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("CallShip() function failed to notify ship in TheNewWestPlayerCharacter.cpp"))
+	}
+}
 
 void ATheNewWestProjectCharacter::SetHasRifle(bool bNewHasRifle)
 {
@@ -153,6 +164,12 @@ bool ATheNewWestProjectCharacter::GetHasRifle()
 void ATheNewWestProjectCharacter::AddToInteractEventSubscribers(AActor* newSubscriber)
 {
 	interactEventSubscribers.Add(newSubscriber);
+}
+
+bool ATheNewWestProjectCharacter::CallBPFunction(AActor* actorWithFunc, FString funcName)
+{
+	FOutputDeviceNull nullOutDevice;
+	return actorWithFunc->CallFunctionByNameWithArguments(*funcName, nullOutDevice, NULL, true);
 }
 
 //-----------------Players Ship------------------------------------------

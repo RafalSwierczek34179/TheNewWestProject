@@ -40,9 +40,13 @@ class ATheNewWestProjectCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
 
-	/** Interact Input Action*/
+	/** Interact Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* InteractAction;
+
+	/** CallDismiss Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* CallShipAction;
 	
 public:
 	ATheNewWestProjectCharacter();
@@ -78,6 +82,9 @@ protected:
 	/** Called for interaction input*/
 	void Interact(const FInputActionValue& Value);
 
+	/** Called for Calling/Dissmissing ship input*/
+	void CallShip(const FInputActionValue& Value);
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
@@ -89,7 +96,9 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
-
+private:
+	/** Calls blueprint function on given object, returns true if called successfully */
+	bool CallBPFunction(AActor* actorWithFunc, FString funcName);
 
 //------------------Ship Controls----------------------------------------------
 public:
