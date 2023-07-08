@@ -40,6 +40,12 @@ class ATheNewWestProjectCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* SprintAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* CrouchAction;
+
 	/** Interact Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* InteractAction;
@@ -81,6 +87,13 @@ protected:
 
 	/** Called for interaction input*/
 	void Interact(const FInputActionValue& Value);
+
+	/** Called for sprint input*/
+	void StartSprint(const FInputActionValue& Value);
+	void EndSprint(const FInputActionValue& Value);
+
+	/** Called for crouch input*/
+	void ToggleCrouch(const FInputActionValue& Value);
 
 	/** Called for Calling/Dissmissing ship input*/
 	void CallShip(const FInputActionValue& Value);

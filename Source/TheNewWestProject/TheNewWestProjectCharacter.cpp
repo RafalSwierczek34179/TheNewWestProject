@@ -8,6 +8,7 @@
 #include "Components/CapsuleComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 #include "Misc/OutputDeviceNull.h"
 
@@ -73,9 +74,17 @@ void ATheNewWestProjectCharacter::SetupPlayerInputComponent(class UInputComponen
 		//Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ATheNewWestProjectCharacter::Look);
 
+		//Sprinting
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::StartSprint);
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &ATheNewWestProjectCharacter::EndSprint);
+
+		//Crouching
+		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::ToggleCrouch);
+
 		//Interacting
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::Interact);
-
+		
+		//Calling ship over
 		EnhancedInputComponent->BindAction(CallShipAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::CallShip);
 	}
 }
@@ -120,6 +129,24 @@ void ATheNewWestProjectCharacter::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
 }
+
+void ATheNewWestProjectCharacter::StartSprint(const FInputActionValue& Value)
+{
+	this->GetCharacterMovement()->MaxWalkSpeed = 1000;
+	this->GetCharacterMovement()->MaxWalkSpeedCrouched = 600;
+}
+
+void ATheNewWestProjectCharacter::EndSprint(const FInputActionValue& Value)
+{
+	this->GetCharacterMovement()->MaxWalkSpeed = 600;
+	this->GetCharacterMovement()->MaxWalkSpeedCrouched = 300;
+}
+
+void ATheNewWestProjectCharacter::ToggleCrouch(const FInputActionValue& Value)
+{
+	this->GetCharacterMovement()->Crouch();
+}
+
 
 void ATheNewWestProjectCharacter::Interact(const FInputActionValue& Value)
 {
