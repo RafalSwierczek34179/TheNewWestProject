@@ -11,6 +11,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 
 #include "Misc/OutputDeviceNull.h"
+#include "Components/CapsuleComponent.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -144,7 +145,9 @@ void ATheNewWestProjectCharacter::EndSprint(const FInputActionValue& Value)
 
 void ATheNewWestProjectCharacter::ToggleCrouch(const FInputActionValue& Value)
 {
-	this->GetCharacterMovement()->Crouch();
+	float newCapsuleHalfHeight = crouching ? 96 : 50;
+	crouching = !crouching;
+	Cast<UCapsuleComponent>(this->GetRootComponent())->SetCapsuleHalfHeight(newCapsuleHalfHeight);
 }
 
 

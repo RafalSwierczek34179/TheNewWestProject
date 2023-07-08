@@ -113,6 +113,9 @@ private:
 	/** Calls blueprint function on given object, returns true if called successfully */
 	bool CallBPFunction(AActor* actorWithFunc, FString funcName);
 
+//-----------------crouching----------------------------------	
+private:
+	bool crouching;
 //------------------Ship Controls----------------------------------------------
 public:
 	UFUNCTION(BlueprintCallable, Category=PlayersShip)
