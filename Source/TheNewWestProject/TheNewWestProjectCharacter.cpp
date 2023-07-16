@@ -12,6 +12,8 @@
 
 #include "Misc/OutputDeviceNull.h"
 #include "Components/ActorComponent.h"
+#include "Components/ArrowComponent.h"
+#include "Engine/EngineTypes.h"
 
 
 
@@ -146,14 +148,24 @@ void ATheNewWestProjectCharacter::EndSprint(const FInputActionValue& Value)
 
 void ATheNewWestProjectCharacter::ToggleCrouch(const FInputActionValue& Value)
 {
+	// Crouching
 	float newCapsuleHalfHeight = crouching ? 96 : 50;
 	crouching = !crouching;
 	Cast<UCapsuleComponent>(this->GetRootComponent())->SetCapsuleHalfHeight(newCapsuleHalfHeight);
-	// TSubclassOf<UActorComponent> compTemplate;
-	// for (UActorComponent* LOS_Comp : GetComponentsByTag(compTemplate, TEXT("LOS")))
-	// {
-	// 	LOS_Comp->SetLo
-	// }
+
+	// Setting new location for LOS_Point so it stays within capsule collision
+	FVector deltaLocation = FVector(0, 0, 20);
+	deltaLocation.Z *= crouching ? -1 : 1;
+	for (UActorComponent* LOS_ActorComp : GetComponentsByTag(UArrowComponent::StaticClass(), FName("LOS")))
+	{
+		UArrowComponent* LOS_Point = Cast<UArrowComponent>(LOS_ActorComp);
+		if (LOS_Point == nullptr)
+		{
+			return;
+		}
+		FHitResult* OutSweepHitResult = new FHitResult();
+		LOS_Point->AddRelativeLocation(deltaLocation, false, OutSweepHitResult, ETeleportType::None);
+	}
 }
 
 
