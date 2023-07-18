@@ -14,6 +14,7 @@
 #include "Components/ActorComponent.h"
 #include "Components/ArrowComponent.h"
 #include "Engine/EngineTypes.h"
+#include "kismet/GameplayStatics.h"
 
 
 
@@ -207,7 +208,7 @@ void ATheNewWestProjectCharacter::TakeDamage(int damage)
 	{
 		return;
 	}
-	GetWorld()->SetCurrentLevel(GetWorld()->GetCurrentLevel());
+	UGameplayStatics::OpenLevel(GetWorld(), FName("ShantyTown_Map"));
 }
 
 int ATheNewWestProjectCharacter::GetHealth()
@@ -215,14 +216,10 @@ int ATheNewWestProjectCharacter::GetHealth()
 	return health;
 }
 
-
 float ATheNewWestProjectCharacter::CalculateDamageEffectOpacity()
 {
-	float test = (float)(100-health)/100;
-	UE_LOG(LogTemp, Warning, TEXT("health: %f"), test)
-	return test;
+	return (float)(100-health)/100;
 }
-
 
 void ATheNewWestProjectCharacter::SetHasRifle(bool bNewHasRifle)
 {
