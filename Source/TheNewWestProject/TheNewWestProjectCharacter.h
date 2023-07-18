@@ -112,10 +112,24 @@ public:
 private:
 	/** Calls blueprint function on given object, returns true if called successfully */
 	bool CallBPFunction(AActor* actorWithFunc, FString funcName);
-
-//-----------------crouching----------------------------------	
+	
+//-----------------Health-------------------------------------
+private:
+	int health = 100;
+public:
+	UFUNCTION(BlueprintCallable, CAtegory="Health")
+	void TakeDamage(int damage);
+	
+	UFUNCTION(BlueprintCallable, Category="Health")
+	int GetHealth();
+	
+	UFUNCTION(BlueprintCallable, Category="Health")
+	float CalculateDamageEffectOpacity();
+	
+//-----------------Crouching----------------------------------	
 private:
 	bool crouching;
+	
 //------------------Ship Controls----------------------------------------------
 public:
 	UFUNCTION(BlueprintCallable, Category=PlayersShip)
@@ -132,8 +146,6 @@ private:
 	UShipControlComponent* shipControlComp;
 
 	bool playerControllingShip;
-
-
 	
 // -------------------Interacting---------------------------------------------	
 private:

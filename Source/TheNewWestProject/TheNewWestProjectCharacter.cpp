@@ -93,7 +93,6 @@ void ATheNewWestProjectCharacter::SetupPlayerInputComponent(class UInputComponen
 	}
 }
 
-
 void ATheNewWestProjectCharacter::Move(const FInputActionValue& Value)
 {
 	// input is a Vector2D
@@ -168,7 +167,6 @@ void ATheNewWestProjectCharacter::ToggleCrouch(const FInputActionValue& Value)
 	}
 }
 
-
 void ATheNewWestProjectCharacter::Interact(const FInputActionValue& Value)
 {
 	if (interactEventSubscribers.IsEmpty())
@@ -198,6 +196,33 @@ void ATheNewWestProjectCharacter::CallShip(const FInputActionValue& Value)
 		UE_LOG(LogTemp, Warning, TEXT("CallShip() function failed to notify ship in TheNewWestPlayerCharacter.cpp"))
 	}
 }
+
+//------------------------------------------------------------------------------
+
+void ATheNewWestProjectCharacter::TakeDamage(int damage)
+{
+	health -= damage;
+
+	if (health > 0)
+	{
+		return;
+	}
+	GetWorld()->SetCurrentLevel(GetWorld()->GetCurrentLevel());
+}
+
+int ATheNewWestProjectCharacter::GetHealth()
+{
+	return health;
+}
+
+
+float ATheNewWestProjectCharacter::CalculateDamageEffectOpacity()
+{
+	float test = (float)(100-health)/100;
+	UE_LOG(LogTemp, Warning, TEXT("health: %f"), test)
+	return test;
+}
+
 
 void ATheNewWestProjectCharacter::SetHasRifle(bool bNewHasRifle)
 {
