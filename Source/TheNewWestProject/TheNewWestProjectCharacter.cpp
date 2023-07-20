@@ -86,6 +86,9 @@ void ATheNewWestProjectCharacter::SetupPlayerInputComponent(class UInputComponen
 		//Crouching
 		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::ToggleCrouch);
 
+		//Equipping Gun
+		EnhancedInputComponent->BindAction(EquipGunAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::EquipGun);
+		
 		//Interacting
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::Interact);
 		
@@ -165,6 +168,23 @@ void ATheNewWestProjectCharacter::ToggleCrouch(const FInputActionValue& Value)
 		}
 		FHitResult* OutSweepHitResult = new FHitResult();
 		LOS_Point->AddRelativeLocation(deltaLocation, false, OutSweepHitResult, ETeleportType::None);
+	}
+}
+
+void ATheNewWestProjectCharacter::EquipGun(const FInputActionValue& Value)
+{
+	switch (bHasRifle)
+	{
+	// Unequip gun
+	case true:
+		bHasRifle = false;
+		// Run EndPlay on gun, destroy gun actor
+		break;
+	// Equip gun
+	case false:
+		bHasRifle = true;
+		// Spawn in bp_rifle and run AttachWeapon on it
+		break;
 	}
 }
 

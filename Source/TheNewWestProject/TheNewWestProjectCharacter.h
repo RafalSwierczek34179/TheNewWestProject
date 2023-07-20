@@ -46,6 +46,9 @@ class ATheNewWestProjectCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* CrouchAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* EquipGunAction;
+	
 	/** Interact Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* InteractAction;
@@ -94,6 +97,9 @@ protected:
 
 	/** Called for crouch input*/
 	void ToggleCrouch(const FInputActionValue& Value);
+
+	/** Called for Equipping and unequipping input*/
+	void EquipGun(const FInputActionValue& Value);
 
 	/** Called for Calling/Dissmissing ship input*/
 	void CallShip(const FInputActionValue& Value);
