@@ -178,10 +178,14 @@ void ATheNewWestProjectCharacter::EquipGun(const FInputActionValue& Value)
 {
 	switch (bHasRifle)
 	{
-	// Unequip gun
+	// Un-equip gun
 	case true:
 		bHasRifle = false;
-		// Run EndPlay on gun, destroy gun actor
+		// Removes Input Context for shooting and destroys actor
+		for (UActorComponent* GunSceneActorComp : playersGun->GetComponentsByTag(UGunSceneComp::StaticClass(), FName("GunComp")))
+		{
+			Cast<UGunSceneComp>(GunSceneActorComp)->SafelyDestroyGun();
+		}
 		break;
 	// Equip gun
 	case false:
@@ -198,7 +202,7 @@ void ATheNewWestProjectCharacter::EquipGun(const FInputActionValue& Value)
 		
 		for (UActorComponent* GunSceneActorComp : playersGun->GetComponentsByTag(UGunSceneComp::StaticClass(), FName("GunComp")))
 		{
-			Cast<UGunSceneComp>(GunSceneActorComp)->SetupPlayerInput(Cast<APlayerController>(GetController()));
+			Cast<UGunSceneComp>(GunSceneActorComp)->SetupPlayerInput(this);
 		}
 		break;
 	}

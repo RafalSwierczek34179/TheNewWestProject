@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TheNewWestProjectCharacter.h"
 #include "Components/SceneComponent.h"
 #include "GunSceneComp.generated.h"
 
@@ -21,13 +22,21 @@ protected:
 
 //-------------------------------------------------------------
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	class UInputMappingContext* FireMappingContext;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	class UInputAction* FireAction;
 	void FireGun();
-	void SetupPlayerInput(APlayerController* PlayerController);
-	
+	void SetupPlayerInput(ATheNewWestProjectCharacter* Player);
+	void SafelyDestroyGun();
 
+private:
+	ATheNewWestProjectCharacter* PlayersCharacter;
+
+	// Shooting properties
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputMappingContext* FireMappingContext;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+    UInputAction* FireAction;
+	UPROPERTY(EditAnywhere, Category = Gameplay)
+	UAnimMontage* FireAnimation;
+	UPROPERTY(EditAnywhere, Category=Gameplay)
+	USoundBase* FireSound;
 		
 };
