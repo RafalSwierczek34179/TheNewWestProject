@@ -32,6 +32,9 @@ class ATheNewWestProjectCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputMappingContext* DefaultMappingContext;
 
+	UPROPERTY(EditAnywhere, Category=Gun)
+	TSubclassOf<AActor> rifleClass;
+	
 	/** Jump Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* JumpAction;
@@ -116,6 +119,7 @@ public:
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
 private:
+	AActor* playersGun;
 	/** Calls blueprint function on given object, returns true if called successfully */
 	bool CallBPFunction(AActor* actorWithFunc, FString funcName);
 	
@@ -160,6 +164,9 @@ private:
 public:
 	void AddToInteractEventSubscribers(AActor* newSubscriber);
 
-
+private:
+	AActor* selfActor;
+	UFUNCTION(BlueprintCallable, Category=player)
+	void SetSelfActor(AActor* act);
 };
 

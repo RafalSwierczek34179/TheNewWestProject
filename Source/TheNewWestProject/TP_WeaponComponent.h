@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "TheNewWestProjectCharacter.h"
 #include "TP_WeaponComponent.generated.h"
 
 class ATheNewWestProjectCharacter;
@@ -41,12 +42,10 @@ public:
 	/** Sets default values for this component's properties */
 	UTP_WeaponComponent();
 
-	/** Attaches the actor to a FirstPersonCharacter */
-	UFUNCTION(BlueprintCallable, Category="Weapon")
-	void AttachWeapon(ATheNewWestProjectCharacter* TargetCharacter);
+	/** Attaches the act12 or to a FirstPersonCharacter */
+	//void AttachWeapon(USceneComponent* arms);
 
 	/** Make the weapon Fire a Projectile */
-	UFUNCTION(BlueprintCallable, Category="Weapon")
 	void Fire();
 
 protected:
@@ -54,7 +53,8 @@ protected:
 	UFUNCTION()
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-private:
+public:
 	/** The Character holding this weapon*/
-	ATheNewWestProjectCharacter* Character;
+	ATheNewWestProjectCharacter* playersCharacter;
+	void SetupGunInput(APlayerController* playerController);
 };

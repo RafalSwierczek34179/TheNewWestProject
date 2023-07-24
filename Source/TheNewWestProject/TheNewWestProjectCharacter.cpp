@@ -8,6 +8,7 @@
 #include "Components/CapsuleComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "GunSceneComp.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 #include "Misc/OutputDeviceNull.h"
@@ -15,6 +16,8 @@
 #include "Components/ArrowComponent.h"
 #include "Engine/EngineTypes.h"
 #include "kismet/GameplayStatics.h"
+#include "TP_WeaponComponent.h"
+#include "GameFramework/Actor.h"
 
 
 
@@ -183,7 +186,20 @@ void ATheNewWestProjectCharacter::EquipGun(const FInputActionValue& Value)
 	// Equip gun
 	case false:
 		bHasRifle = true;
-		// Spawn in bp_rifle and run AttachWeapon on it
+		// local vars needed for spawning and attaching gun to player
+		FVector loc = GetActorLocation() + FVector(-50, 0, 0);
+		FRotator rot = GetActorRotation();
+		FActorSpawnParameters spawnParams;
+		spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
+		
+		playersGun = GetWorld()->SpawnActor<AActor>(rifleClass, loc, rot, spawnParams);
+		playersGun->AttachToComponent(GetMesh1P(), AttachmentRules, FName("GripPoint"));
+		
+		for (UActorComponent* GunSceneActorComp : playersGun->GetComponentsByTag(UGunSceneComp::StaticClass(), FName("GunComp")))
+		{
+			Cast<UGunSceneComp>(GunSceneActorComp)->SetupPlayerInput(Cast<APlayerController>(GetController()));
+		}
 		break;
 	}
 }
@@ -277,6 +293,12 @@ void ATheNewWestProjectCharacter::ToggleShipControlling()
 {
 	playerControllingShip = !playerControllingShip;
 }
+
+void ATheNewWestProjectCharacter::SetSelfActor(AActor* act)
+{
+	selfActor = act;
+}
+
 
 
 
