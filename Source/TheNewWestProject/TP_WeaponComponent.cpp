@@ -55,11 +55,11 @@ void UTP_WeaponComponent::Fire()
 	if (FireAnimation != nullptr)
 	{
 		// Get the animation object for the arms mesh
-		UAnimInstance* AnimInstance = playersCharacter->GetMesh1P()->GetAnimInstance();
-		if (AnimInstance != nullptr)
-		{
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
-		}
+		//UAnimInstance* AnimInstance = playersCharacter->GetMesh1P()->GetAnimInstance();
+		// if (AnimInstance != nullptr)
+		// {
+		// 	AnimInstance->Montage_Play(FireAnimation, 1.f);
+		// }
 	}
 }
 

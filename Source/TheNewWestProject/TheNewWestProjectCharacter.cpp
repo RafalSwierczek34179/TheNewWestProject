@@ -16,7 +16,6 @@
 #include "Components/ArrowComponent.h"
 #include "Engine/EngineTypes.h"
 #include "kismet/GameplayStatics.h"
-#include "TP_WeaponComponent.h"
 #include "GameFramework/Actor.h"
 
 
@@ -65,7 +64,7 @@ void ATheNewWestProjectCharacter::BeginPlay()
 
 }
 
-//////////////////////////////////////////////////////////////////////////// Input
+//------------------------Input--------------------------------------
 
 void ATheNewWestProjectCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
@@ -198,7 +197,7 @@ void ATheNewWestProjectCharacter::EquipGun(const FInputActionValue& Value)
 		FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
 		
 		playersGun = GetWorld()->SpawnActor<AActor>(rifleClass, loc, rot, spawnParams);
-		playersGun->AttachToComponent(GetMesh1P(), AttachmentRules, FName("GripPoint"));
+		playersGun->AttachToComponent(Mesh1P, AttachmentRules, FName("GripPoint"));
 		
 		for (UActorComponent* GunSceneActorComp : playersGun->GetComponentsByTag(UGunSceneComp::StaticClass(), FName("GunComp")))
 		{
@@ -238,7 +237,7 @@ void ATheNewWestProjectCharacter::CallShip(const FInputActionValue& Value)
 	}
 }
 
-//------------------------------------------------------------------------------
+//------------------------Health--------------------------------------
 
 void ATheNewWestProjectCharacter::TakeDamage(int damage)
 {
@@ -261,15 +260,23 @@ float ATheNewWestProjectCharacter::CalculateDamageEffectOpacity()
 	return (float)(100-health)/100;
 }
 
-void ATheNewWestProjectCharacter::SetHasRifle(bool bNewHasRifle)
-{
-	bHasRifle = bNewHasRifle;
-}
+//-----------------Players Ship------------------------------------------
+ bool ATheNewWestProjectCharacter::GetIsPlayerControllingShip()
+ {
+ 	return playerControllingShip;
+ }
+ 
+ void ATheNewWestProjectCharacter::SetShipControlComp(UShipControlComponent* playersShipControlComp)
+ {
+ 	shipControlComp = playersShipControlComp;
+ }
+ 
+ void ATheNewWestProjectCharacter::ToggleShipControlling()
+ {
+ 	playerControllingShip = !playerControllingShip;
+ }
 
-bool ATheNewWestProjectCharacter::GetHasRifle()
-{
-	return bHasRifle;
-}
+//------------------------Misc--------------------------------------
 
 void ATheNewWestProjectCharacter::AddToInteractEventSubscribers(AActor* newSubscriber)
 {
@@ -282,26 +289,6 @@ bool ATheNewWestProjectCharacter::CallBPFunction(AActor* actorWithFunc, FString 
 	return actorWithFunc->CallFunctionByNameWithArguments(*funcName, nullOutDevice, NULL, true);
 }
 
-//-----------------Players Ship------------------------------------------
-bool ATheNewWestProjectCharacter::GetIsPlayerControllingShip()
-{
-	return playerControllingShip;
-}
-
-void ATheNewWestProjectCharacter::SetShipControlComp(UShipControlComponent* playersShipControlComp)
-{
-	shipControlComp = playersShipControlComp;
-}
-
-void ATheNewWestProjectCharacter::ToggleShipControlling()
-{
-	playerControllingShip = !playerControllingShip;
-}
-
-void ATheNewWestProjectCharacter::SetSelfActor(AActor* act)
-{
-	selfActor = act;
-}
 
 
 

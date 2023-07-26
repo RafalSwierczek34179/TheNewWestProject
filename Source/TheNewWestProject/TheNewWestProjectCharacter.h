@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "ShipControlComponent.h"
+#include "InputAction.h"
 #include "TheNewWestProjectCharacter.generated.h"
 
 class UInputComponent;
@@ -19,154 +20,127 @@ UCLASS(config=Game)
 class ATheNewWestProjectCharacter : public ACharacter
 {
 	GENERATED_BODY()
-
-	/** Pawn mesh: 1st person view (arms; seen only by self) */
+	
+	// 	------------------------------Properties-----------------------------------------------
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
-	USkeletalMeshComponent* Mesh1P;
-
-	/** First person camera */
+    USkeletalMeshComponent* Mesh1P;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* FirstPersonCameraComponent;
-
-	/** MappingContext */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	class UInputMappingContext* DefaultMappingContext;
+    UCameraComponent* FirstPersonCameraComponent;
 
 	UPROPERTY(EditAnywhere, Category=Gun)
 	TSubclassOf<AActor> rifleClass;
+
+	AActor* playersGun;
+
+	int health = 100;
+
+	bool crouching;
+
+	// Array of actors that need to be notified when an interact event runs
+	TArray<AActor*> interactEventSubscribers;
+
+	// Has Move() and Look() functions for the ship
+	UShipControlComponent* shipControlComp;
+                                                                                                              
+	bool playerControllingShip;
+
+	// ------------------------------Functions-----------------------------------------------
+	/** Calls blueprint function on given object, returns true if called successfully */
+	bool CallBPFunction(AActor* actorWithFunc, FString funcName);
 	
-	/** Jump Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	class UInputAction* JumpAction;
 
-	/** Move Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	class UInputAction* MoveAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	class UInputAction* SprintAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	class UInputAction* CrouchAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	class UInputAction* EquipGunAction;
+protected:
+	// 	------------------------------Properties-----------------------------------------------
 	
-	/** Interact Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	class UInputAction* InteractAction;
+	// ------------------------------Functions-----------------------------------------------
+	virtual void BeginPlay();
 
-	/** CallDismiss Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	class UInputAction* CallShipAction;
+	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 	
 public:
 	ATheNewWestProjectCharacter();
 
-protected:
-	virtual void BeginPlay();
-
-public:
-		
-	/** Look Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* LookAction;
-
+	// 	------------------------------Properties-----------------------------------------------
 	/** Bool for AnimBP to switch to another animation set */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon)
 	bool bHasRifle;
 
-	/** Setter to set the bool */
-	UFUNCTION(BlueprintCallable, Category = Weapon)
-	void SetHasRifle(bool bNewHasRifle);
-
-	/** Getter for the bool */
-	UFUNCTION(BlueprintCallable, Category = Weapon)
-	bool GetHasRifle();
-
-protected:
-	/** Called for movement input */
-	void Move(const FInputActionValue& Value);
-
-	/** Called for looking input */
-	void Look(const FInputActionValue& Value);
-
-	/** Called for interaction input*/
-	void Interact(const FInputActionValue& Value);
-
-	/** Called for sprint input*/
-	void StartSprint(const FInputActionValue& Value);
-	void EndSprint(const FInputActionValue& Value);
-
-	/** Called for crouch input*/
-	void ToggleCrouch(const FInputActionValue& Value);
-
-	/** Called for Equipping and unequipping input*/
-	void EquipGun(const FInputActionValue& Value);
-
-	/** Called for Calling/Dissmissing ship input*/
-	void CallShip(const FInputActionValue& Value);
-
-protected:
-	// APawn interface
-	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
-	// End of APawn interface
-
-public:
-	/** Returns Mesh1P subobject **/
-	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
-	/** Returns FirstPersonCameraComponent subobject **/
-	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
-
-private:
-	AActor* playersGun;
-	/** Calls blueprint function on given object, returns true if called successfully */
-	bool CallBPFunction(AActor* actorWithFunc, FString funcName);
-	
-//-----------------Health-------------------------------------
-private:
-	int health = 100;
-public:
+	// ------------------------------Functions-----------------------------------------------
 	UFUNCTION(BlueprintCallable, CAtegory="Health")
 	void TakeDamage(int damage);
-	
+
 	UFUNCTION(BlueprintCallable, Category="Health")
-	int GetHealth();
-	
+    int GetHealth();
+
 	UFUNCTION(BlueprintCallable, Category="Health")
 	float CalculateDamageEffectOpacity();
-	
-//-----------------Crouching----------------------------------	
-private:
-	bool crouching;
-	
-//------------------Ship Controls----------------------------------------------
-public:
-	UFUNCTION(BlueprintCallable, Category=PlayersShip)
-	bool GetIsPlayerControllingShip();
 
-	UFUNCTION(BlueprintCallable, Category=PlayersShip)
-	void SetShipControlComp(UShipControlComponent* playersShipControlComp);
+	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 
-	UFUNCTION(BlueprintCallable, Category=PlayersShip)
-	void ToggleShipControlling();
-	
-private:
-	// Has Move() and Look() functions for the ship
-	UShipControlComponent* shipControlComp;
-
-	bool playerControllingShip;
-	
-// -------------------Interacting---------------------------------------------	
-private:
-	// Array of actors that need to be notified when an interact event runs
-	TArray<AActor*> interactEventSubscribers;
-public:
 	void AddToInteractEventSubscribers(AActor* newSubscriber);
 
+	UFUNCTION(BlueprintCallable, Category=PlayersShip)
+	bool GetIsPlayerControllingShip();
+                                                              
+	UFUNCTION(BlueprintCallable, Category=PlayersShip)
+	void SetShipControlComp(UShipControlComponent* playersShipControlComp);
+                                                              
+	UFUNCTION(BlueprintCallable, Category=PlayersShip)
+	void ToggleShipControlling();
+
+// public:
+// 	/** Returns Mesh1P subobject **/
+// 	
+//	/** Returns FirstPersonCameraComponent subobject **/
+//	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
+	
+//------------------------------------Input---------------------------------------
 private:
-	AActor* selfActor;
-	UFUNCTION(BlueprintCallable, Category=player)
-	void SetSelfActor(AActor* act);
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputMappingContext* DefaultMappingContext;
+	
+	// Input Actions
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* LookAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* MoveAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* JumpAction;
+	                                   
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* SprintAction;
+                                   
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* CrouchAction;
+                                   
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* EquipGunAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* InteractAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* CallShipAction;
+
+protected:
+	// Input Methods, jump method already exists and is run from ACharacter
+	void Look(const FInputActionValue& Value);
+
+	void Move(const FInputActionValue& Value);
+
+	void StartSprint(const FInputActionValue& Value);
+	
+	void EndSprint(const FInputActionValue& Value);
+
+	void ToggleCrouch(const FInputActionValue& Value);
+
+	void EquipGun(const FInputActionValue& Value);
+
+	void Interact(const FInputActionValue& Value);
+
+	void CallShip(const FInputActionValue& Value);
 };
 
