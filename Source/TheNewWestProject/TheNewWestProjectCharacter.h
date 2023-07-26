@@ -37,6 +37,9 @@ class ATheNewWestProjectCharacter : public ACharacter
 
 	bool crouching;
 
+	UPROPERTY(EditDefaultsOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	float SensitivityMultiplier = 1;
+
 	// Array of actors that need to be notified when an interact event runs
 	TArray<AActor*> interactEventSubscribers;
 
