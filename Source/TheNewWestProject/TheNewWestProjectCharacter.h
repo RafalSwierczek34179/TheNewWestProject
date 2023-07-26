@@ -88,12 +88,6 @@ public:
                                                               
 	UFUNCTION(BlueprintCallable, Category=PlayersShip)
 	void ToggleShipControlling();
-
-// public:
-// 	/** Returns Mesh1P subobject **/
-// 	
-//	/** Returns FirstPersonCameraComponent subobject **/
-//	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 	
 //------------------------------------Input---------------------------------------
 private:
