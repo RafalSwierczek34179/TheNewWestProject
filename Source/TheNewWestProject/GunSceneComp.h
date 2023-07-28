@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "TheNewWestProjectCharacter.h"
 #include "Components/SceneComponent.h"
+#include "Components/ArrowComponent.h"
 #include "GunSceneComp.generated.h"
 
 
@@ -28,6 +29,7 @@ public:
 
 private:
 	ATheNewWestProjectCharacter* PlayersCharacter;
+	UArrowComponent* FireLT_StartArrow;
 
 	// Shooting properties
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))

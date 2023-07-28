@@ -3,6 +3,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Camera/CameraComponent.h"
 #include "kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
@@ -37,14 +38,38 @@ void UGunSceneComp::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 void UGunSceneComp::FireGun()
 {
 	UAnimInstance* AnimInstance = PlayersCharacter->GetMesh1P()->GetAnimInstance();
-	if (FireSound == nullptr || FireAnimation == nullptr || AnimInstance == nullptr)
+	if (FireSound == nullptr || FireAnimation == nullptr || AnimInstance == nullptr || FireLT_StartArrow == nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Gun failed to fire because either the fire soun/animation on BP_Rifle GunSceneComp aren't set or failed to grab anim instance from mesh1p"));
+		UE_LOG(LogTemp, Warning, TEXT("Gun failed to fire because either the fire soun/animation on BP_Rifle GunSceneComp aren't set, or failed to grab anim instance from mesh1p, or FireLT_StartArrow is null"));
 		return;
 	}
 	
 	UGameplayStatics::PlaySoundAtLocation(GetWorld(), FireSound, PlayersCharacter->GetActorLocation());
-	AnimInstance->Montage_Play(FireAnimation, 1);	
+	AnimInstance->Montage_Play(FireAnimation, 1);
+
+	FHitResult OutHit;
+	FVector FireLT_StartLoc = FireLT_StartArrow->GetSocketLocation(NAME_None);
+	// Emergency cam forward vector in case casting to players camera component fails, less accurate as doesn't take cameras yaw into consideration
+	FVector CamForwardVector = PlayersCharacter->GetActorForwardVector();
+	for (UActorComponent* comp : PlayersCharacter->GetComponentsByTag(UCameraComponent::StaticClass(), FName("Camera")))
+	{
+		CamForwardVector = Cast<UCameraComponent>(comp)->GetForwardVector();
+	}
+	FVector FireLT_EndLoc = FireLT_StartLoc + (CamForwardVector * FVector(4000, 4000, 4000));
+	FCollisionQueryParams CollisionQueryParameters = FCollisionQueryParams::DefaultQueryParam;
+	CollisionQueryParameters.bTraceComplex = false;
+	CollisionQueryParameters.AddIgnoredActor(Cast<AActor>(PlayersCharacter));
+
+	
+	if (!GetWorld()->LineTraceSingleByChannel(OutHit, FireLT_StartLoc, FireLT_EndLoc, ECC_Camera, CollisionQueryParameters) || OutHit.GetActor() == nullptr)
+	{
+		return;
+	}
+	AActor* HitActor = OutHit.GetActor();
+	if (HitActor->Tags.Contains(TEXT("Enemy")))
+	{
+		HitActor->Destroy();
+	}
 }
 
 void UGunSceneComp::SetupPlayerInput(ATheNewWestProjectCharacter* Player)
@@ -54,6 +79,11 @@ void UGunSceneComp::SetupPlayerInput(ATheNewWestProjectCharacter* Player)
 		return;
 	}
 	PlayersCharacter = Player;
+
+	for (UActorComponent* comp : PlayersCharacter->GetComponentsByTag(UArrowComponent::StaticClass(), FName("LOS")))
+	{
+		FireLT_StartArrow = Cast<UArrowComponent>(comp);
+	}
 
 	APlayerController* PlayerController = Cast<APlayerController>(Player->GetController());	
 	
