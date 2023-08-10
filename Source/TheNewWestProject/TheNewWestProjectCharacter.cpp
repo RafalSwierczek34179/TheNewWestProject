@@ -2,13 +2,12 @@
 
 #include "TheNewWestProjectCharacter.h"
 
-#include "TheNewWestProjectProjectile.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "GunSceneComp.h"
+#include "TheNewWestProject/Misc/GunSceneComp.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 #include "Misc/OutputDeviceNull.h"

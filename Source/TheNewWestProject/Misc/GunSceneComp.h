@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TheNewWestProjectCharacter.h"
+#include "TheNewWestProject//TheNewWestProjectCharacter.h"
 #include "Components/SceneComponent.h"
 #include "Components/ArrowComponent.h"
 #include "GunSceneComp.generated.h"

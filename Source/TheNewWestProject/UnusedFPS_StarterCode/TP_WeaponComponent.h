@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/SkeletalMeshComponent.h"
-#include "TheNewWestProjectCharacter.h"
+#include "TheNewWestProject/TheNewWestProjectCharacter.h"
 #include "TP_WeaponComponent.generated.h"
 
 class ATheNewWestProjectCharacter;

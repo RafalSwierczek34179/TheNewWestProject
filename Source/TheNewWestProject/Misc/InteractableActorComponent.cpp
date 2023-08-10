@@ -4,7 +4,7 @@
 #include "InteractableActorComponent.h"
 
 #include "Kismet/GameplayStatics.h"
-#include "TheNewWestProjectCharacter.h"
+#include "TheNewWestProject//TheNewWestProjectCharacter.h"
 
 
 

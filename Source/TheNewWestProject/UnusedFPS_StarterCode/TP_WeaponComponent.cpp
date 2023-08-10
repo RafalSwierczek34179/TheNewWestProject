@@ -9,7 +9,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "SWarningOrErrorBox.h"
-#include "TheNewWestProjectCharacter.h"
+#include "TheNewWestProject/TheNewWestProjectCharacter.h"
 
 // Sets default values for this component's properties
 UTP_WeaponComponent::UTP_WeaponComponent()

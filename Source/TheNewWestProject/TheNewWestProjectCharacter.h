@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
-#include "ShipControlComponent.h"
+#include "TheNewWestProject/Misc/ShipControlComponent.h"
 #include "InputAction.h"
 #include "TheNewWestProjectCharacter.generated.h"
 
