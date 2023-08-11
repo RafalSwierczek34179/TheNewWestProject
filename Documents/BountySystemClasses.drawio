@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-08-09T20:14:20.655Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36" etag="xU1LDqcWTC4l-Z1KbHCW" version="21.6.6" type="device">
+<mxfile host="app.diagrams.net" modified="2023-08-11T10:09:27.695Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36" etag="qauFJ1epBp4inoq1bMXT" version="21.6.7" type="device">
   <diagram name="Page-1" id="AjC5Njh4eguKapSpAvRN">
-    <mxGraphModel dx="2440" dy="1360" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="4681" pageHeight="3300" math="0" shadow="0">
+    <mxGraphModel dx="1195" dy="663" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="4681" pageHeight="3300" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -22,14 +22,14 @@
         <mxCell id="JHr09sOz1zZQpbSy3JUp-7" value="Methods" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;" parent="1" vertex="1">
           <mxGeometry x="970" y="760" width="80" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="JHr09sOz1zZQpbSy3JUp-10" value="Be a scene component on the players ship&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;br style=&quot;font-size: 15px;&quot;&gt;Have a widget attached to it as a child, widget will display current main bounty&lt;br&gt;and and correlated SBC, will have a basic description text, audio &lt;br&gt;snippet play when&amp;nbsp;player completes a mission&lt;br&gt;&lt;br&gt;Only interaction is that the player can press f to collect MB reward, player cant&amp;nbsp;&lt;br&gt;browse missions or anything.&lt;br&gt;&lt;br&gt;Has a TArray of MainBounties in order set from editor, BeginPlay() will Set first&amp;nbsp;&lt;br&gt;active MB and its SBC and will also call UpdateBountyDisplay()&lt;br&gt;&lt;br&gt;UpdateBountyDisplay() will be a blueprintimplementableevent &lt;br&gt;(https://unrealcommunity.wiki/calling-bp-events-from-cpp-usceo7hw)&lt;br&gt;and will be called at the end of FinishCurrentBC() after a new MB has been&lt;br&gt;declared. Implemented in BP, will handle text displayed on widget whenever a&amp;nbsp;&lt;br&gt;new bounty becomes active by using the ActiveBC and SBC protected&amp;nbsp;&lt;br&gt;properties&lt;br&gt;&lt;br&gt;PlaySuccessAudio() will also be a bpimplementableevent which will be called&amp;nbsp;&lt;br&gt;at the end of FinishCurrentBC() and just runs an audio snippet in bp when&amp;nbsp;&lt;br&gt;player collects a reward&lt;br&gt;&lt;br&gt;FinishCurrentBC(), CollectReward()-&amp;gt;PlaySuccessAudio()-&amp;gt;Destoy current&amp;nbsp;&lt;br&gt;ActiveBC and SBCs-&amp;gt;inc bcindex and fill new active bounties-&amp;gt;UpdateDisplay()" style="text;html=1;align=left;verticalAlign=top;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;" parent="1" vertex="1">
-          <mxGeometry x="1240" y="520" width="550" height="460" as="geometry" />
+        <mxCell id="JHr09sOz1zZQpbSy3JUp-10" value="Be a scene component on the players ship&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;br style=&quot;font-size: 15px;&quot;&gt;Have a widget attached to it as a child, widget will display current main bounty&lt;br&gt;and and correlated SBC, will have a basic description text, audio &lt;br&gt;snippet play when&amp;nbsp;player completes a mission&lt;br&gt;&lt;br&gt;Only interaction is that the player can press f to collect MB reward, player cant&amp;nbsp;&lt;br&gt;browse missions or anything.&lt;br&gt;&lt;br&gt;Has a TArray of MainBounties in order set from editor, BeginPlay() will Set first&amp;nbsp;&lt;br&gt;active MB and its SBC and will also call UpdateBountyDisplay()&lt;br&gt;&lt;br&gt;UpdateBountyDisplay() will be a blueprintimplementableevent &lt;br&gt;(https://unrealcommunity.wiki/calling-bp-events-from-cpp-usceo7hw)&lt;br&gt;and will be called at the end of FinishCurrentBC() after a new MB has been&lt;br&gt;declared. Implemented in BP, will handle text displayed on widget whenever a&amp;nbsp;&lt;br&gt;new bounty becomes active by using the ActiveBC and SBC protected&amp;nbsp;&lt;br&gt;properties&lt;br&gt;&lt;br&gt;&lt;br&gt;FinishCurrentBC(), CollectReward()-&amp;gt;PlaySuccessAudio()-&amp;gt;Destoy current&amp;nbsp;&lt;br&gt;ActiveBC and SBCs-&amp;gt;inc bcindex and fill new active bounties-&amp;gt;UpdateDisplay()" style="text;html=1;align=left;verticalAlign=top;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;" parent="1" vertex="1">
+          <mxGeometry x="1240" y="520" width="550" height="410" as="geometry" />
         </mxCell>
-        <mxCell id="gekw5o8z00ZUhXw-cJ0Q-2" value="&lt;ul&gt;&lt;li&gt;FinishCurrentBC()&lt;/li&gt;&lt;li&gt;UpdateBountyDisplay()&lt;/li&gt;&lt;li&gt;PlaySuccessAudio()&lt;/li&gt;&lt;li&gt;SBCUpdated(int)&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="970" y="775" width="190" height="100" as="geometry" />
+        <mxCell id="gekw5o8z00ZUhXw-cJ0Q-2" value="&lt;ul&gt;&lt;li&gt;FinishCurrentBC()&lt;/li&gt;&lt;li&gt;UpdateBountyDisplay()&lt;/li&gt;&lt;li&gt;SBCUpdated(int)&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="970" y="785" width="190" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="gekw5o8z00ZUhXw-cJ0Q-3" value="&lt;ul&gt;&lt;li&gt;TArray&amp;lt;subclass&amp;lt;BC&amp;gt;&amp;gt; BC_List&lt;/li&gt;&lt;li&gt;int BC_Index&lt;/li&gt;&lt;li&gt;TMap&amp;lt;subclass&amp;lt;BC&amp;gt;,&amp;nbsp;&lt;/li&gt;&lt;li&gt;subclass&amp;lt;SBC&amp;gt;&amp;gt;SBC_Map&lt;/li&gt;&lt;li&gt;BC* ActiveBC&lt;/li&gt;&lt;li&gt;TArray&amp;lt;SBC*&amp;gt;ActiveSBC&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="970" y="545" width="240" height="120" as="geometry" />
+        <mxCell id="gekw5o8z00ZUhXw-cJ0Q-3" value="&lt;ul&gt;&lt;li&gt;TArray&amp;lt;subclass&amp;lt;BC&amp;gt;&amp;gt; BC_List&lt;/li&gt;&lt;li&gt;int BC_Index&lt;/li&gt;&lt;li&gt;BC* ActiveBC&lt;/li&gt;&lt;li&gt;TArray&amp;lt;SBC*&amp;gt;ActiveSBC&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="970" y="555" width="240" height="100" as="geometry" />
         </mxCell>
         <mxCell id="gekw5o8z00ZUhXw-cJ0Q-4" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#FFFFFF;opacity=20;strokeWidth=5;" parent="1" vertex="1">
           <mxGeometry x="975" y="1205" width="230" height="180" as="geometry" />
@@ -76,8 +76,8 @@
         <mxCell id="gekw5o8z00ZUhXw-cJ0Q-19" value="&lt;ul&gt;&lt;li&gt;public Bool IsCompleted()&lt;/li&gt;&lt;li&gt;private void SpawnSteps()&lt;/li&gt;&lt;li&gt;public void IncrementMissionStep()&lt;/li&gt;&lt;li&gt;public void CollectReward()&lt;/li&gt;&lt;li&gt;public void UpdateMissionSteps(&lt;/li&gt;&lt;li&gt;TMap&amp;lt;int, Step*&amp;gt;)&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="1449.5" y="1325" width="250" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="gekw5o8z00ZUhXw-cJ0Q-20" value="&lt;ul&gt;&lt;li&gt;protected Bool Completed&lt;/li&gt;&lt;li&gt;protected TArray&amp;lt;subclass&amp;lt;Step&amp;gt;&amp;gt;&lt;/li&gt;&lt;li&gt;&amp;nbsp;StepsToSpawn&lt;/li&gt;&lt;li&gt;protected TArray&amp;lt;Step*&amp;gt;&amp;nbsp;&lt;/li&gt;&lt;li&gt;MissionSteps&lt;/li&gt;&lt;li&gt;int RewardMoney&lt;/li&gt;&lt;li&gt;FString Description&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="1449.5" y="1095" width="250" height="140" as="geometry" />
+        <mxCell id="gekw5o8z00ZUhXw-cJ0Q-20" value="&lt;ul&gt;&lt;li&gt;protected Bool Completed&lt;/li&gt;&lt;li&gt;protected TArray&amp;lt;subclass&amp;lt;Step&amp;gt;&amp;gt;&lt;/li&gt;&lt;li&gt;&amp;nbsp;StepsToSpawn&lt;/li&gt;&lt;li&gt;protected TArray&amp;lt;Step*&amp;gt;&amp;nbsp;&lt;/li&gt;&lt;li&gt;MissionSteps&lt;/li&gt;&lt;li&gt;int RewardMoney&lt;/li&gt;&lt;li&gt;FString Description&lt;/li&gt;&lt;li&gt;TArray&amp;lt;subclass&amp;lt;sbc&amp;gt;&amp;gt; SBCs&lt;/li&gt;&lt;li&gt;FTransform SpawnTransform&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="1449.5" y="1080" width="250" height="170" as="geometry" />
         </mxCell>
         <mxCell id="gekw5o8z00ZUhXw-cJ0Q-21" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#FFFFFF;opacity=20;strokeWidth=5;" parent="1" vertex="1">
           <mxGeometry x="1810" y="1720" width="850" height="520" as="geometry" />
@@ -181,7 +181,7 @@
         <mxCell id="gekw5o8z00ZUhXw-cJ0Q-70" value="&lt;ul&gt;&lt;li&gt;UPROP public bool Active&lt;/li&gt;&lt;li&gt;public uproperties below&lt;/li&gt;&lt;li&gt;FString Description&lt;/li&gt;&lt;li&gt;FVector WaypointLoc&lt;/li&gt;&lt;li&gt;Texture WaypointIcon&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="1449.5" y="2470" width="200" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="gekw5o8z00ZUhXw-cJ0Q-73" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.185;entryY=-0.005;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="gekw5o8z00ZUhXw-cJ0Q-30" edge="1" target="gekw5o8z00ZUhXw-cJ0Q-62">
+        <mxCell id="gekw5o8z00ZUhXw-cJ0Q-73" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.185;entryY=-0.005;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="gekw5o8z00ZUhXw-cJ0Q-30" target="gekw5o8z00ZUhXw-cJ0Q-62" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1320" y="2380" as="sourcePoint" />
             <mxPoint x="1345" y="2400" as="targetPoint" />
@@ -205,52 +205,52 @@
             <mxPoint x="2200" y="2650" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="EfsSH6QWIhWe5ab4bgoi-1" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="JHr09sOz1zZQpbSy3JUp-2">
+        <mxCell id="EfsSH6QWIhWe5ab4bgoi-1" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="JHr09sOz1zZQpbSy3JUp-2" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1890" y="860" as="sourcePoint" />
             <mxPoint x="2040" y="740" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="EfsSH6QWIhWe5ab4bgoi-2" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="gekw5o8z00ZUhXw-cJ0Q-12">
+        <mxCell id="EfsSH6QWIhWe5ab4bgoi-2" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="1" target="gekw5o8z00ZUhXw-cJ0Q-12" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="2040" y="740" as="sourcePoint" />
             <mxPoint x="2420" y="900" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="EfsSH6QWIhWe5ab4bgoi-3" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.733;entryY=-0.006;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="gekw5o8z00ZUhXw-cJ0Q-21" target="gekw5o8z00ZUhXw-cJ0Q-62">
+        <mxCell id="EfsSH6QWIhWe5ab4bgoi-3" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.733;entryY=-0.006;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="gekw5o8z00ZUhXw-cJ0Q-21" target="gekw5o8z00ZUhXw-cJ0Q-62" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="2089.75" y="2240" as="sourcePoint" />
             <mxPoint x="2088.75" y="2397" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="EfsSH6QWIhWe5ab4bgoi-5" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#FFFFFF;opacity=20;strokeWidth=5;" vertex="1" parent="1">
+        <mxCell id="EfsSH6QWIhWe5ab4bgoi-5" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#FFFFFF;opacity=20;strokeWidth=5;" parent="1" vertex="1">
           <mxGeometry x="2080" y="480" width="850" height="520" as="geometry" />
         </mxCell>
-        <mxCell id="EfsSH6QWIhWe5ab4bgoi-6" value="Player" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#FFFFFF;fontSize=20;" vertex="1" parent="1">
+        <mxCell id="EfsSH6QWIhWe5ab4bgoi-6" value="Player" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#FFFFFF;fontSize=20;" parent="1" vertex="1">
           <mxGeometry x="2465" y="480" width="80" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="EfsSH6QWIhWe5ab4bgoi-7" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#FFFFFF;opacity=20;strokeWidth=3;" vertex="1" parent="1">
+        <mxCell id="EfsSH6QWIhWe5ab4bgoi-7" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#FFFFFF;opacity=20;strokeWidth=3;" parent="1" vertex="1">
           <mxGeometry x="2130" y="520" width="230" height="220" as="geometry" />
         </mxCell>
-        <mxCell id="EfsSH6QWIhWe5ab4bgoi-8" value="Properties" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;" vertex="1" parent="1">
+        <mxCell id="EfsSH6QWIhWe5ab4bgoi-8" value="Properties" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;" parent="1" vertex="1">
           <mxGeometry x="2130" y="520" width="90" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="EfsSH6QWIhWe5ab4bgoi-9" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#FFFFFF;opacity=20;strokeWidth=3;" vertex="1" parent="1">
+        <mxCell id="EfsSH6QWIhWe5ab4bgoi-9" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#FFFFFF;opacity=20;strokeWidth=3;" parent="1" vertex="1">
           <mxGeometry x="2130" y="760" width="230" height="220" as="geometry" />
         </mxCell>
-        <mxCell id="EfsSH6QWIhWe5ab4bgoi-10" value="Methods" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;" vertex="1" parent="1">
+        <mxCell id="EfsSH6QWIhWe5ab4bgoi-10" value="Methods" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;" parent="1" vertex="1">
           <mxGeometry x="2130" y="760" width="80" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="EfsSH6QWIhWe5ab4bgoi-11" value="Active bounties will hold a list of active bounties, at index 0 the main bounty&lt;br&gt;will always sit. The only time there will ever be anything in position 1 is if the&amp;nbsp;&lt;br&gt;player starts a Supporting Bounty or a Hit by entering its area&lt;br&gt;&lt;br&gt;DisplayBountyUI() will be called when the player presses tab. It will display&amp;nbsp;&lt;br&gt;current objective information such as description, and waypoint location and&lt;br&gt;icon. Will always use the highest indexed bounty from the Active Bounties array,&lt;br&gt;basically always prioritizing any SBC or Hits the player stumbles into over the&lt;br&gt;main bounty at index 0. Will be a BPNativeEvent as it&#39;ll be called in c++ but&amp;nbsp;&lt;br&gt;update mostly aesthetic stuff in bp." style="text;html=1;align=left;verticalAlign=top;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;" vertex="1" parent="1">
+        <mxCell id="EfsSH6QWIhWe5ab4bgoi-11" value="Active bounties will hold a list of active bounties, at index 0 the main bounty&lt;br&gt;will always sit. The only time there will ever be anything in position 1 is if the&amp;nbsp;&lt;br&gt;player starts a Supporting Bounty or a Hit by entering its area&lt;br&gt;&lt;br&gt;DisplayBountyUI() will be called when the player presses tab. It will display&amp;nbsp;&lt;br&gt;current objective information such as description, and waypoint location and&lt;br&gt;icon. Will always use the highest indexed bounty from the Active Bounties array,&lt;br&gt;basically always prioritizing any SBC or Hits the player stumbles into over the&lt;br&gt;main bounty at index 0. Will be a BPNativeEvent as it&#39;ll be called in c++ but&amp;nbsp;&lt;br&gt;update mostly aesthetic stuff in bp." style="text;html=1;align=left;verticalAlign=top;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;" parent="1" vertex="1">
           <mxGeometry x="2400" y="520" width="550" height="190" as="geometry" />
         </mxCell>
-        <mxCell id="EfsSH6QWIhWe5ab4bgoi-12" value="&lt;ul&gt;&lt;li&gt;void DisplayBountyUI()&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+        <mxCell id="EfsSH6QWIhWe5ab4bgoi-12" value="&lt;ul&gt;&lt;li&gt;void DisplayBountyUI()&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="2130" y="800" width="190" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="EfsSH6QWIhWe5ab4bgoi-13" value="&lt;ul&gt;&lt;li&gt;TArray&amp;lt;Subclass&amp;lt;BC&amp;gt;&amp;gt;&amp;nbsp;&lt;/li&gt;&lt;li&gt;ActiveBounties&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+        <mxCell id="EfsSH6QWIhWe5ab4bgoi-13" value="&lt;ul&gt;&lt;li&gt;TArray&amp;lt;Subclass&amp;lt;BC&amp;gt;&amp;gt;&amp;nbsp;&lt;/li&gt;&lt;li&gt;ActiveBounties&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="2130" y="570" width="200" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="EfsSH6QWIhWe5ab4bgoi-14" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="1" source="JHr09sOz1zZQpbSy3JUp-2" target="EfsSH6QWIhWe5ab4bgoi-5">
+        <mxCell id="EfsSH6QWIhWe5ab4bgoi-14" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" parent="1" source="JHr09sOz1zZQpbSy3JUp-2" target="EfsSH6QWIhWe5ab4bgoi-5" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1930" y="530" as="sourcePoint" />
             <mxPoint x="1930" y="620" as="targetPoint" />
