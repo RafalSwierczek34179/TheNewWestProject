@@ -25,3 +25,9 @@ void AStepClass::Tick(float DeltaTime)
 
 }
 
+void AStepClass::BroadcastCompletion()
+{
+	CompletedStepDelegate.Broadcast();
+}
+
+

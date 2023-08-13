@@ -6,21 +6,59 @@
 #include "GameFramework/Actor.h"
 #include "StepClass.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCompletedStep);
+
 UCLASS()
 class THENEWWESTPROJECT_API AStepClass : public AActor
 {
 	GENERATED_BODY()
-	
 public:	
-	// Sets default values for this actor's properties
 	AStepClass();
-
+	virtual void Tick(float DeltaTime) override;
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+// ----------------------------------
+
+private:
+	FCompletedStep CompletedStepDelegate;
+
+	UFUNCTION(BlueprintCallable, Category = "Step")
+	void BroadcastCompletion();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Step")
+	FString Description;
+	UPROPERTY(EditDefaultsOnly, Category = "Step")
+	FVector WaypointLoc;
+	UPROPERTY(EditDefaultsOnly, Category = "Step")
+	UTexture2D* WaypointIcon;
+	UPROPERTY(EditDefaultsOnly, Category = "Step")
+	FTransform StepSpawnTransform;
+
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	UPROPERTY(VisibleAnywhere, Category = "Step")
+	bool Active = false;
+
+	// Getters for Step Properties
+	FString GetDescription()
+	{
+		return Description;
+	};
+	FVector GetWaypointLoc()
+	{
+		return WaypointLoc;
+	}
+	UTexture2D* GetWaypointIcon()
+	{
+		return WaypointIcon;
+	}
+	FTransform GetStepSpawnTransform()
+	{
+		return StepSpawnTransform;
+	}
+	
+	
+
+	
 
 };
