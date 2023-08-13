@@ -27,7 +27,7 @@ private:
 	
 	// Ordered list of main bounties to spawn in
 	UPROPERTY(EditDefaultsOnly, Category = "Bounty")
-	TArray<TSubclassOf<ABountyClass>> BC_List;
+	TArray<TSubclassOf<ABountyClass>> BC_Array;
 
 	// Array index of current main bounty
 	int CurrentBountyIndex;
