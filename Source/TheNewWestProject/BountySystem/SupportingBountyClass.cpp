@@ -3,3 +3,11 @@
 
 #include "SupportingBountyClass.h"
 
+void ASupportingBountyClass::IncrementMissionStep()
+{
+	Super::IncrementMissionStep();
+	if (Completed)
+	{
+		CompletedSBC_Delegate.Broadcast(ActiveSBC_Index);
+	}
+}

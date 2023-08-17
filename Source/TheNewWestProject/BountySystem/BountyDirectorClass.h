@@ -29,7 +29,14 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Bounty")
 	TArray<TSubclassOf<ABountyClass>> BC_Array;
 
-	// Array index of current main bounty
+	/** Ordered list of supporting bounties, every 3 positions
+	 * apply to 1 position in BC_Array. For example, pos 3, 4,
+	 * and 5 in SBC_Array correspond to pos 1 in BC_Array
+	 */
+	UPROPERTY(EditDefaultsOnly, Category = "Bounty")
+	TArray<TSubclassOf<ASupportingBountyClass>> SBC_Array;
+
+	// <Array index of current main bounty
 	int CurrentBountyIndex;
 
 	// Currently active bounty
@@ -44,6 +51,7 @@ private:
 
 	// Collect reward for current bounty and prepare the next bounty
 	void FinishActiveBC();
+	
 
 protected:	
 	/** Blueprint implemented function called from c++, handles aesthetic changes to bounty display
