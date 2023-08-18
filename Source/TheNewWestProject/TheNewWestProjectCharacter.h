@@ -7,6 +7,7 @@
 #include "InputActionValue.h"
 #include "TheNewWestProject/Misc/ShipControlComponent.h"
 #include "InputAction.h"
+#include "TheNewWestProject/BountySystem/BountyClass.h"
 #include "TheNewWestProjectCharacter.generated.h"
 
 class UInputComponent;
@@ -68,6 +69,8 @@ public:
 	/** Bool for AnimBP to switch to another animation set */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon)
 	bool bHasRifle;
+
+	TArray<ABountyClass*> ActiveBounties;
 
 	// ------------------------------Functions-----------------------------------------------
 	UFUNCTION(BlueprintCallable, CAtegory="Health")

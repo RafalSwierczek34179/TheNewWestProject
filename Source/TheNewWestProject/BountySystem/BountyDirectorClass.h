@@ -6,6 +6,7 @@
 #include "Components/SceneComponent.h"
 #include "BountyClass.h"
 #include "SupportingBountyClass.h"
+#include "TheNewWestProject/TheNewWestProjectCharacter.h"
 #include "BountyDirectorClass.generated.h"
 
 
@@ -23,7 +24,8 @@ protected:
 
 private:
 
-// -------- Properties ---------	
+// -------- Properties ---------
+	ATheNewWestProjectCharacter* PlayerChar;
 	
 	// Ordered list of main bounties to spawn in
 	UPROPERTY(EditDefaultsOnly, Category = "Bounty")
@@ -36,9 +38,12 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Bounty")
 	TArray<TSubclassOf<ASupportingBountyClass>> SBC_Array;
 
-	// <Array index of current main bounty
+	// Array index of current main bounty
 	int CurrentBountyIndex;
-
+	
+	// Array indexes of current supporting bounties
+	TArray<int> CurrentSBCIndexes;
+	
 	// Currently active bounty
 	UPROPERTY(VisibleAnywhere, Category = "Bounty")
 	ABountyClass* ActiveBC;
