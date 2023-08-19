@@ -32,6 +32,9 @@ protected:
 	int RewardMoney;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Bounty")
+	FString Title;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Bounty")
 	FString Description;
 
 	// Spawns mission steps, stores them in MissionSteps Array in order and assigns their delegates
@@ -55,11 +58,16 @@ public:
 		return Description;
 	}
 
+	FString GetTitle()
+	{
+		return Title;
+	}
+
 	// Collect money in C++, anything else will be in BPs
     UFUNCTION(BlueprintNativeEvent, Category = "Bounty")
     void CollectRewards();
 
 	// Called by Bounty Director, replaces any steps to alter mission when a player completes a supporting bounty
-	void UpdateMissionSteps(TMap<int, TSubclassOf<AStepClass>>);
+	void UpdateMissionSteps(TMap<int, TSubclassOf<AStepClass>> ReplacementSteps);
 	
 };

@@ -21,8 +21,6 @@ protected:
 // ----------------------------------
 
 private:
-	FCompletedStep CompletedStepDelegate;
-
 	UFUNCTION(BlueprintCallable, Category = "Step")
 	void BroadcastCompletion();
 
@@ -35,7 +33,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Step")
 	FTransform StepSpawnTransform;
 
-public:	
+public:
+	FCompletedStep CompletedStepDelegate;
+	
 	UPROPERTY(VisibleAnywhere, Category = "Step")
 	bool Active = false;
 

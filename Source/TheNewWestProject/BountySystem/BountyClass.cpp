@@ -15,6 +15,8 @@ ABountyClass::ABountyClass()
 void ABountyClass::BeginPlay()
 {
 	Super::BeginPlay();
+
+	SpawnSteps();
 	
 }
 
@@ -33,8 +35,27 @@ void ABountyClass::SpawnSteps()
 	 *TODO:
 	 *Spawn mission steps from StepsToSpawn array using their spawntransforms property
 	 *Store spawned steps in completion order in MissionSteps array
-	 *Assign every steps CompletedStep Delegate to IncrementMissionStep() function
+	 *Assign first steps CompletedStep Delegate to IncrementMissionStep() function and set it to active
 	 */
+
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	for (TSubclassOf<AStepClass> StepClass : StepsToSpawn)
+	{
+		if (StepClass == nullptr)
+		{
+			UE_LOG(LogTemp, Fatal, TEXT("Someone added a step slot without assigning it a step, assign it a step in %s Main Bounty's BP class defaults"), *Title);
+			continue;
+		}
+		FVector Loc = StepClass.GetDefaultObject()->GetStepSpawnTransform().GetLocation();
+		FRotator Rot = StepClass.GetDefaultObject()->GetStepSpawnTransform().GetRotation().Rotator();
+		AStepClass* SpawnedStep = Cast<AStepClass>(GetWorld()->SpawnActor<AActor>(StepClass, Loc, Rot, SpawnParameters));
+		MissionSteps.Add(SpawnedStep);		
+	}
+
+	// Allow the step to become active and listen for when it is completed
+	MissionSteps[0]->Active = true;
+	MissionSteps[0]->CompletedStepDelegate.AddDynamic(this, &ABountyClass::IncrementMissionStep);
 }
 
 void ABountyClass::IncrementMissionStep()
@@ -42,8 +63,30 @@ void ABountyClass::IncrementMissionStep()
 	/**
 	 *TODO:
 	 *Check if the Array has another step, if not set completed to true
-	 *Else Destroy Current Step, shrink array, and set the new step in pos 0 to Active
+	 *Else Destroy Current Step, shrink array, and set the new step in pos 0 to Active and apply delegate
 	 */
+
+	if (MissionSteps.Num() <= 1)
+	{
+		Completed = true;
+		return;
+	}
+
+	if (MissionSteps[1] == nullptr)
+	{
+		UE_LOG(LogTemp, Fatal, TEXT("Missing step in Mission Steps, could be that it failed to spawn or cast"));
+		return;
+	}
+
+	// Destroy Actor and shrink array
+	MissionSteps[0]->Active = false;
+	MissionSteps[0]->Destroy();
+	MissionSteps.RemoveAt(0);
+
+	// Set the new step in position 0 to active and assign its delegate
+	MissionSteps[0]->Active = true;
+	MissionSteps[0]->CompletedStepDelegate.AddDynamic(this, &ABountyClass::IncrementMissionStep);
+	
 }
 
 void ABountyClass::CollectRewards_Implementation()
@@ -52,9 +95,11 @@ void ABountyClass::CollectRewards_Implementation()
 	 *TODO:
 	 *Apply RewardMoney to player
 	 */
+
+	UE_LOG(LogTemp, Warning, TEXT("The player has gained $%d for completing the bounty!"), RewardMoney);
 }
 
-void ABountyClass::UpdateMissionSteps(TMap<int, TSubclassOf<AStepClass>>)
+void ABountyClass::UpdateMissionSteps(TMap<int, TSubclassOf<AStepClass>> ReplacementSteps)
 {
 	/**
 	 *TODO:
@@ -63,6 +108,29 @@ void ABountyClass::UpdateMissionSteps(TMap<int, TSubclassOf<AStepClass>>)
 	 *	Spawn in new replacement step from the sub class
 	 *	Store the new step ref at index "int" of Mission Steps
 	 */
+
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	for (auto ReplacementStep : ReplacementSteps)
+	{
+		// DONT FORGET TO DESTROY STEP!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//SDJGBFSDJHGBJHKSDBFGJH
+		
+		FVector Loc = Cast<TSubclassOf<AStepClass>>(ReplacementStep.Value)->GetDefaultObject()->GetStepSpawnTransform().GetLocation();
+		FRotator Rot = Cast<TSubclassOf<AStepClass>>(ReplacementStep.Value)->GetDefaultObject()->GetStepSpawnTransform().GetRotation().Rotator();
+		AStepClass* SpawnedStep = Cast<AStepClass>(GetWorld()->SpawnActor<AActor>(ReplacementStep.Value, Loc, Rot, SpawnParameters));
+
+		if (SpawnedStep == nullptr)
+		{
+			UE_LOG(LogTemp, Fatal, TEXT("The new step hasn't spawned in properly and the cast failed, honestly check all the key value stuff in UpdateMissionSteps in BountyClass.cpp"));
+			return;
+		}
+
+		// DONT FORGET TO NOW USE THE NEW STEP TO REPLACE IT!!!!!!!!!
+		
+		
+	}
 }
 
 
