@@ -63,8 +63,8 @@ void UBountyDirectorClass::BeginPlay()
 		{
 			continue;
 		}
-		ASupportingBountyClass* SBC = Cast<ASupportingBountyClass>(GetWorld()->SpawnActor<AActor>(SBC_Array[SBC_Index], SpawnParams));
-		SBC->SetActorTransform(SBC->GetSpawnTransform());
+		ASupportingBountyClass* SBC = Cast<ASupportingBountyClass>(GetWorld()->SpawnActor<AActor>(SBC_Array[SBC_Index], PlayerChar->GetActorLocation(), PlayerChar->GetActorRotation(),SpawnParams));
+		SBC->AttachToActor(PlayerChar->GetOwner(), AttachmentRules);
 		ActiveSBC[ActiveSBC_Index] = SBC;
 		SBC->ActiveSBC_Index = ActiveSBC_Index;
 		ActiveSBC_Index++;
@@ -85,6 +85,64 @@ void UBountyDirectorClass::FinishActiveBC()
 	 *	Update ActiveBounties[0] to be the new ActiveBC
 	 *	Run UpdateBountyDisplay()
 	 */
+
+	ActiveBC->CollectRewards();
+
+	// Destroy old bounties
+	ActiveBC->Destroy();
+	for (ASupportingBountyClass* SBC: ActiveSBC)
+	{
+		SBC->Destroy();
+	}
+
+	// Increment Bounty Indexes
+	CurrentBountyIndex++;
+	for (int i = 0; i < 3; i++)
+	{
+		CurrentSBCIndexes[i] += 3;
+	}
+
+	if (CurrentBountyIndex >= BC_Array.Num())
+	{
+		// Finished all bounties, completed the game
+		UE_LOG(LogTemp, Warning, TEXT("Finished all bounties, completed the game"));
+		return;
+	}
+
+	if (BC_Array[CurrentBountyIndex] == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Bounty number %d hasn't been set, stop playing and set it"), CurrentBountyIndex);
+		return;
+	}
+
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	const FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
+
+	// Spawn and setup main bounty
+	AActor* BountyActor = GetWorld()->SpawnActor<AActor>(BC_Array[CurrentBountyIndex], PlayerChar->GetActorLocation(), PlayerChar->GetActorRotation(), SpawnParams);
+	BountyActor->AttachToActor(PlayerChar->GetOwner(), AttachmentRules);
+	ActiveBC = Cast<ABountyClass>(BountyActor);
+	// Main bounty must always be the first on the players bounty list so other bounties can override it
+	PlayerChar->ActiveBounties[0] = ActiveBC;
+
+	// Spawn and setup supporting bounties
+	int ActiveSBC_Index = 0;
+	for (int SBC_Index : CurrentSBCIndexes)
+	{
+		// Skip if a supporting bounty hasn't been set up in this array slot
+		if (SBC_Array[SBC_Index] == nullptr)
+		{
+			continue;
+		}
+		ASupportingBountyClass* SBC = Cast<ASupportingBountyClass>(GetWorld()->SpawnActor<AActor>(SBC_Array[SBC_Index], PlayerChar->GetActorLocation(), PlayerChar->GetActorRotation(),SpawnParams));
+		SBC->AttachToActor(PlayerChar->GetOwner(), AttachmentRules);
+		ActiveSBC[ActiveSBC_Index] = SBC;
+		SBC->ActiveSBC_Index = ActiveSBC_Index;
+		ActiveSBC_Index++;
+	}
+
+	UpdateBountyDisplay();
 }
 
 void UBountyDirectorClass::SBC_Completed(int SBC_Index)
@@ -94,6 +152,8 @@ void UBountyDirectorClass::SBC_Completed(int SBC_Index)
 	 * Store GetReplacementSteps() from ActiveSBC[SBC_Index]
 	 * Run UpdateMissionSteps() in ActiveBC using the stored replacement steps
 	 */
+
+	ActiveBC->UpdateMissionSteps(ActiveSBC[SBC_Index]->GetReplacementSteps());
 }
 
 
