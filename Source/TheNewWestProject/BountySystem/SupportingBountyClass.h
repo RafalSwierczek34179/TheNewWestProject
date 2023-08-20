@@ -17,7 +17,7 @@ class THENEWWESTPROJECT_API ASupportingBountyClass : public ABountyClass
 	UPROPERTY(EditDefaultsOnly, Category = "Supporting Bounty")
 	TMap<int, TSubclassOf<AStepClass>> ReplacementSteps;
 
-	FCompletedSBC CompletedSBC_Delegate;
+	
 
 
 public:
@@ -28,6 +28,8 @@ public:
 	{
 		return ReplacementSteps;	
 	}
+
+	FCompletedSBC CompletedSBC_Delegate;
 	
 
 	virtual void IncrementMissionStep() override;

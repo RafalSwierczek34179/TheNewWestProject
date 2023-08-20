@@ -67,6 +67,7 @@ void UBountyDirectorClass::BeginPlay()
 		SBC->AttachToActor(PlayerChar->GetOwner(), AttachmentRules);
 		ActiveSBC[ActiveSBC_Index] = SBC;
 		SBC->ActiveSBC_Index = ActiveSBC_Index;
+		ActiveSBC[ActiveSBC_Index]->CompletedSBC_Delegate.AddDynamic(this, &UBountyDirectorClass::SBC_Completed);
 		ActiveSBC_Index++;
 	}
 
@@ -139,6 +140,7 @@ void UBountyDirectorClass::FinishActiveBC()
 		SBC->AttachToActor(PlayerChar->GetOwner(), AttachmentRules);
 		ActiveSBC[ActiveSBC_Index] = SBC;
 		SBC->ActiveSBC_Index = ActiveSBC_Index;
+		ActiveSBC[ActiveSBC_Index]->CompletedSBC_Delegate.AddDynamic(this, &UBountyDirectorClass::SBC_Completed);
 		ActiveSBC_Index++;
 	}
 

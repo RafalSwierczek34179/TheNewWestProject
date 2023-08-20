@@ -19,12 +19,12 @@ protected:
 	virtual void BeginPlay() override;
 
 // --------------------------------
-	
+
 protected:
 	bool Completed = false;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Bounty")
-	TArray<TSubclassOf<AStepClass>> StepsToSpawn;
+    	TArray<TSubclassOf<AStepClass>> StepsToSpawn;
 
 	TArray<AStepClass*> MissionSteps;
 

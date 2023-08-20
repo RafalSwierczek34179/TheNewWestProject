@@ -114,11 +114,10 @@ void ABountyClass::UpdateMissionSteps(TMap<int, TSubclassOf<AStepClass>> Replace
 
 	for (auto ReplacementStep : ReplacementSteps)
 	{
-		// DONT FORGET TO DESTROY STEP!!!!!!!!!!!!!!!!!!!!!!!!!!
-		//SDJGBFSDJHGBJHKSDBFGJH
+		MissionSteps[ReplacementStep.Key]->Destroy();
 		
-		FVector Loc = Cast<TSubclassOf<AStepClass>>(ReplacementStep.Value)->GetDefaultObject()->GetStepSpawnTransform().GetLocation();
-		FRotator Rot = Cast<TSubclassOf<AStepClass>>(ReplacementStep.Value)->GetDefaultObject()->GetStepSpawnTransform().GetRotation().Rotator();
+		FVector Loc = Cast<AStepClass>(ReplacementStep.Value)->GetStepSpawnTransform().GetLocation();
+		FRotator Rot = Cast<AStepClass>(ReplacementStep.Value)->GetStepSpawnTransform().GetRotation().Rotator();
 		AStepClass* SpawnedStep = Cast<AStepClass>(GetWorld()->SpawnActor<AActor>(ReplacementStep.Value, Loc, Rot, SpawnParameters));
 
 		if (SpawnedStep == nullptr)
@@ -128,7 +127,8 @@ void ABountyClass::UpdateMissionSteps(TMap<int, TSubclassOf<AStepClass>> Replace
 		}
 
 		// DONT FORGET TO NOW USE THE NEW STEP TO REPLACE IT!!!!!!!!!
-		
+
+		MissionSteps[ReplacementStep.Key] = SpawnedStep;
 		
 	}
 }
