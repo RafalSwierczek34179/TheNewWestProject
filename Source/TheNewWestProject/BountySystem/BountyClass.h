@@ -40,13 +40,6 @@ protected:
 	// Spawns mission steps, stores them in MissionSteps Array in order and assigns their delegates
 	void SpawnSteps();
 
-	// Runs after a step is completed, moves onto the next step in Mission Steps or sets mission to completed state
-	virtual void IncrementMissionStep();
-
-	
-
-	
-
 public:
 	bool IsCompleted()
 	{
@@ -63,8 +56,12 @@ public:
 		return Title;
 	}
 
+	// Runs after a step is completed, moves onto the next step in Mission Steps or sets mission to completed state
+	UFUNCTION()
+	virtual void IncrementMissionStep();
+
 	// Collect money in C++, anything else will be in BPs
-    UFUNCTION(BlueprintNativeEvent, Category = "Bounty")
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void CollectRewards();
 
 	// Called by Bounty Director, replaces any steps to alter mission when a player completes a supporting bounty

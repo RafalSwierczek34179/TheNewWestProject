@@ -4,19 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
+#include "GameFramework/Actor.h"
 #include "BountyClass.h"
 #include "SupportingBountyClass.h"
 #include "TheNewWestProject/TheNewWestProjectCharacter.h"
 #include "BountyDirectorClass.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class THENEWWESTPROJECT_API UBountyDirectorClass : public USceneComponent
+UCLASS()
+class THENEWWESTPROJECT_API ABountyDirectorClass : public AActor
 {
 	GENERATED_BODY()
 public:	
-	UBountyDirectorClass();
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	ABountyDirectorClass();
+	virtual void Tick(float DeltaTime) override;
 protected:
 	virtual void BeginPlay() override;
 

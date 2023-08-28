@@ -3,18 +3,18 @@
 
 #include "BountyDirectorClass.h"
 // ------Default AActor Functionality ---------
-UBountyDirectorClass::UBountyDirectorClass()
+ABountyDirectorClass::ABountyDirectorClass()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = true;
 }
 
-void UBountyDirectorClass::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void ABountyDirectorClass::Tick(float DeltaTime)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	Super::Tick(DeltaTime);
 }
 
 // -----------------------------------------
-void UBountyDirectorClass::BeginPlay()
+void ABountyDirectorClass::BeginPlay()
 {
 	Super::BeginPlay();
 	
@@ -59,7 +59,7 @@ void UBountyDirectorClass::BeginPlay()
 	for (int SBC_Index : CurrentSBCIndexes)
 	{
 		// Skip if a supporting bounty hasn't been set up in this array slot
-		if (SBC_Array[SBC_Index] == nullptr)
+		if (SBC_Array.Num() <= SBC_Index || SBC_Array[SBC_Index] == nullptr)
 		{
 			continue;
 		}
@@ -67,7 +67,7 @@ void UBountyDirectorClass::BeginPlay()
 		SBC->AttachToActor(PlayerChar->GetOwner(), AttachmentRules);
 		ActiveSBC[ActiveSBC_Index] = SBC;
 		SBC->ActiveSBC_Index = ActiveSBC_Index;
-		ActiveSBC[ActiveSBC_Index]->CompletedSBC_Delegate.AddDynamic(this, &UBountyDirectorClass::SBC_Completed);
+		ActiveSBC[ActiveSBC_Index]->CompletedSBC_Delegate.AddDynamic(this, &ABountyDirectorClass::SBC_Completed);
 		ActiveSBC_Index++;
 	}
 
@@ -75,7 +75,7 @@ void UBountyDirectorClass::BeginPlay()
 	
 }
 
-void UBountyDirectorClass::FinishActiveBC()
+void ABountyDirectorClass::FinishActiveBC()
 {
 	/**
 	 *TODO:
@@ -132,7 +132,7 @@ void UBountyDirectorClass::FinishActiveBC()
 	for (int SBC_Index : CurrentSBCIndexes)
 	{
 		// Skip if a supporting bounty hasn't been set up in this array slot
-		if (SBC_Array[SBC_Index] == nullptr)
+		if (SBC_Array.Num() <= SBC_Index || SBC_Array[SBC_Index] == nullptr)
 		{
 			continue;
 		}
@@ -140,14 +140,14 @@ void UBountyDirectorClass::FinishActiveBC()
 		SBC->AttachToActor(PlayerChar->GetOwner(), AttachmentRules);
 		ActiveSBC[ActiveSBC_Index] = SBC;
 		SBC->ActiveSBC_Index = ActiveSBC_Index;
-		ActiveSBC[ActiveSBC_Index]->CompletedSBC_Delegate.AddDynamic(this, &UBountyDirectorClass::SBC_Completed);
+		ActiveSBC[ActiveSBC_Index]->CompletedSBC_Delegate.AddDynamic(this, &ABountyDirectorClass::SBC_Completed);
 		ActiveSBC_Index++;
 	}
 
 	UpdateBountyDisplay();
 }
 
-void UBountyDirectorClass::SBC_Completed(int SBC_Index)
+void ABountyDirectorClass::SBC_Completed(int SBC_Index)
 {
 	/**
 	 *TODO:

@@ -16,11 +16,11 @@ void AEnemySpawner::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FActorSpawnParameters spawnParams;
-	for (FTransform spawnTransform : spawnTransforms)
-	{
-		GetWorld()->SpawnActor<AActor>(enemyCharacterClass, spawnTransform.GetLocation(), spawnTransform.GetRotation().Rotator(), spawnParams);
-	}
+	// FActorSpawnParameters spawnParams;
+	// for (FTransform spawnTransform : spawnTransforms)
+	// {
+	// 	GetWorld()->SpawnActor<AActor>(enemyCharacterClass, spawnTransform.GetLocation(), spawnTransform.GetRotation().Rotator(), spawnParams);
+	// }
 	
 }
 

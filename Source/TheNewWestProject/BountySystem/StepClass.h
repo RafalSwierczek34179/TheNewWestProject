@@ -33,10 +33,21 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Step")
 	FTransform StepSpawnTransform;
 
+	UFUNCTION(BlueprintCallable, Category = "Step")
+	void UpdateStepDesc(FString Desc)
+	{
+		Description = Desc;
+	}
+	UFUNCTION(BlueprintCallable, Category = "Step")
+	void UpdateStepWaypointLoc(FVector Loc)
+	{
+		WaypointLoc = Loc;
+	}
+
 public:
 	FCompletedStep CompletedStepDelegate;
 	
-	UPROPERTY(VisibleAnywhere, Category = "Step")
+	UPROPERTY(BlueprintReadOnly, Category = "Step")
 	bool Active = false;
 
 	// Getters for Step Properties

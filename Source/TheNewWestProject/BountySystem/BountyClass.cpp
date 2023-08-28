@@ -56,6 +56,7 @@ void ABountyClass::SpawnSteps()
 	// Allow the step to become active and listen for when it is completed
 	MissionSteps[0]->Active = true;
 	MissionSteps[0]->CompletedStepDelegate.AddDynamic(this, &ABountyClass::IncrementMissionStep);
+	UE_LOG(LogTemp, Warning, TEXT("delegate assigned"));
 }
 
 void ABountyClass::IncrementMissionStep()
@@ -66,9 +67,15 @@ void ABountyClass::IncrementMissionStep()
 	 *Else Destroy Current Step, shrink array, and set the new step in pos 0 to Active and apply delegate
 	 */
 
+	UE_LOG(LogTemp, Warning, TEXT("increment mission is being ran!!!"));
+	
 	if (MissionSteps.Num() <= 1)
 	{
 		Completed = true;
+		MissionSteps[0]->Active = false;
+		MissionSteps[0]->Destroy();
+		MissionSteps.RemoveAt(0);
+		UE_LOG(LogTemp, Warning, TEXT("You've Completed the mission!!! Well done"));
 		return;
 	}
 
