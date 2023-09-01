@@ -1,8 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "GunSceneComp.h"
 
+#include "EnemyController.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "kismet/GameplayStatics.h"
 
@@ -68,7 +70,13 @@ void UGunSceneComp::FireGun()
 	AActor* HitActor = OutHit.GetActor();
 	if (HitActor->Tags.Contains(TEXT("Enemy")))
 	{
-		HitActor->Destroy();
+		AEnemyController* EnemyController = Cast<AEnemyController>(UAIBlueprintHelperLibrary::GetAIController(HitActor));
+		if (EnemyController == nullptr)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Killed enemy can't be killed as cast to their controller failed"));
+			return;
+		}
+		EnemyController->KillSelf();
 	}
 }
 
