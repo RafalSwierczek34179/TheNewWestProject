@@ -75,6 +75,20 @@ void ABountyDirectorClass::BeginPlay()
 	
 }
 
+void ABountyDirectorClass::UpdateBountyProgression()
+{
+	if (ActiveBC == nullptr)
+	{
+		return;
+	}
+
+	if (ActiveBC->IsCompleted())
+	{
+		FinishActiveBC();
+	}
+}
+
+
 void ABountyDirectorClass::FinishActiveBC()
 {
 	/**
@@ -93,6 +107,10 @@ void ABountyDirectorClass::FinishActiveBC()
 	ActiveBC->Destroy();
 	for (ASupportingBountyClass* SBC: ActiveSBC)
 	{
+		if (SBC == nullptr)
+		{
+			continue;
+		}
 		SBC->Destroy();
 	}
 
@@ -107,6 +125,8 @@ void ABountyDirectorClass::FinishActiveBC()
 	{
 		// Finished all bounties, completed the game
 		UE_LOG(LogTemp, Warning, TEXT("Finished all bounties, completed the game"));
+		ActiveBC = nullptr;
+		UpdateBountyDisplay();
 		return;
 	}
 

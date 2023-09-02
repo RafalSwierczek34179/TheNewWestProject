@@ -53,6 +53,10 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Bounty")
 	TArray<ASupportingBountyClass*> ActiveSBC;
 
+	// Checks if completed current bounty and if so moves onto the next
+	UFUNCTION(BlueprintCallable, Category = "Bounty")
+	void UpdateBountyProgression();
+
 // --------- Methods ---------
 
 	// Collect reward for current bounty and prepare the next bounty
