@@ -27,7 +27,6 @@ void AStepClass::Tick(float DeltaTime)
 
 void AStepClass::BroadcastCompletion()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Delegate is being broadcast"));
 	CompletedStepDelegate.Broadcast();
 }
 

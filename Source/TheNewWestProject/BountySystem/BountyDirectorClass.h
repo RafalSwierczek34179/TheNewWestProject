@@ -67,4 +67,17 @@ protected:
 
 	// A supporting bounty has been completed and wants to update the main bounties steps
 	void SBC_Completed(int SBC_Index);
+
+public:
+	UFUNCTION(BlueprintCallable, Category = "Bounty")
+	FString GetBountyTitle()
+	{
+		return ActiveBC == nullptr ? FString("N/A") : ActiveBC->GetTitle();
+	}
+
+	UFUNCTION(BlueprintCallable, Category = "Bounty")
+	FString GetBountyDescription()
+	{
+		return ActiveBC == nullptr ? FString("N/A") : ActiveBC->GetDescription();
+	}
 };

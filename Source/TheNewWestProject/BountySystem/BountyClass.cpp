@@ -66,8 +66,6 @@ void ABountyClass::IncrementMissionStep()
 	 *Check if the Array has another step, if not set completed to true
 	 *Else Destroy Current Step, shrink array, and set the new step in pos 0 to Active and apply delegate
 	 */
-
-	UE_LOG(LogTemp, Warning, TEXT("increment mission is being ran!!!"));
 	
 	if (MissionSteps.Num() <= 1)
 	{
