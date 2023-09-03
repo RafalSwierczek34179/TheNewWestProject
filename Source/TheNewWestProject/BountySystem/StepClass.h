@@ -51,7 +51,8 @@ public:
 	bool Active = false;
 
 	// Getters for Step Properties
-	FString GetDescription()
+	UFUNCTION(BlueprintCallable, Category = "Step")
+	FString GetStepDescription()
 	{
 		return Description;
 	};
