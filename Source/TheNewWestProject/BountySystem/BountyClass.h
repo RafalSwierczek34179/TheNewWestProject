@@ -56,6 +56,33 @@ public:
 		return Title;
 	}
 
+	FVector GetActiveWaypointLoc()
+	{
+		if (MissionSteps.IsEmpty() || MissionSteps[0] == nullptr)
+		{
+			return FVector(0, 0, 0);
+		}
+		return MissionSteps[0]->GetWaypointLoc();
+	}
+
+	UTexture2D* GetActiveWaypointIcon()
+	{
+		if (MissionSteps.IsEmpty() || MissionSteps[0] == nullptr)
+		{
+			return nullptr;
+		}
+		return MissionSteps[0]->GetWaypointIcon();
+	}
+
+	FString GetActiveStepDesc()
+	{
+		if (MissionSteps.IsEmpty() || MissionSteps[0] == nullptr)
+		{
+			return FString("Mission Description is Broken, GG. BountyClass.h GetActiveStepDesc()");
+		}
+		return MissionSteps[0]->GetStepDescription();
+	}
+
 	// Runs after a step is completed, moves onto the next step in Mission Steps or sets mission to completed state
 	UFUNCTION()
 	virtual void IncrementMissionStep();

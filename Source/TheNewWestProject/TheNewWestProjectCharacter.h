@@ -72,6 +72,15 @@ public:
 
 	TArray<ABountyClass*> ActiveBounties;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Bounty")
+	FVector WaypointLoc;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Bounty")
+	UTexture2D* WaypointIcon;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Bounty")
+	FString WaypointDesc;	
+
 	// ------------------------------Functions-----------------------------------------------
 	UFUNCTION(BlueprintCallable, CAtegory="Health")
 	void TakeDamage(int damage);
@@ -125,6 +134,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* CallShipAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* HUDAction;
+
 protected:
 	// Input Methods, jump method already exists and is run from ACharacter
 	void Look(const FInputActionValue& Value);
@@ -142,5 +154,8 @@ protected:
 	void Interact(const FInputActionValue& Value);
 
 	void CallShip(const FInputActionValue& Value);
+
+	UFUNCTION(BlueprintNativeEvent, Category = "Player Character")
+	void DisplayBountyUI();
 };
 

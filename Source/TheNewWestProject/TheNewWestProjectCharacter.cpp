@@ -95,6 +95,9 @@ void ATheNewWestProjectCharacter::SetupPlayerInputComponent(class UInputComponen
 		
 		//Calling ship over
 		EnhancedInputComponent->BindAction(CallShipAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::CallShip);
+
+		//Displaying Bounty Information
+		EnhancedInputComponent->BindAction(HUDAction, ETriggerEvent::Triggered, this, &ATheNewWestProjectCharacter::DisplayBountyUI);
 	}
 }
 
@@ -235,6 +238,22 @@ void ATheNewWestProjectCharacter::CallShip(const FInputActionValue& Value)
 		UE_LOG(LogTemp, Warning, TEXT("CallShip() function failed to notify ship in TheNewWestPlayerCharacter.cpp"))
 	}
 }
+
+void ATheNewWestProjectCharacter::DisplayBountyUI_Implementation()
+{
+	if (ActiveBounties.IsEmpty() || ActiveBounties.Last() == nullptr)
+	{
+		WaypointLoc = FVector(0, 0, 0);
+		WaypointIcon = nullptr;
+		WaypointDesc = FString("No more Bounties mate, check DisplayBountyUI_Implementation() at projectCharacter.cpp");
+		return;
+	}
+
+	WaypointLoc = ActiveBounties.Last()->GetActiveWaypointLoc();
+	WaypointIcon = ActiveBounties.Last()->GetActiveWaypointIcon();
+	WaypointDesc = ActiveBounties.Last()->GetActiveStepDesc();
+}
+
 
 //------------------------Health--------------------------------------
 
