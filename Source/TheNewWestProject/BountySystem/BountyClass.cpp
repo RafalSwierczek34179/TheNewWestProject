@@ -56,7 +56,6 @@ void ABountyClass::SpawnSteps()
 	// Allow the step to become active and listen for when it is completed
 	MissionSteps[0]->Active = true;
 	MissionSteps[0]->CompletedStepDelegate.AddDynamic(this, &ABountyClass::IncrementMissionStep);
-	UE_LOG(LogTemp, Warning, TEXT("delegate assigned"));
 }
 
 void ABountyClass::IncrementMissionStep()
@@ -114,15 +113,22 @@ void ABountyClass::UpdateMissionSteps(TMap<int, TSubclassOf<AStepClass>> Replace
 	 *	Store the new step ref at index "int" of Mission Steps
 	 */
 
+	if (ReplacementSteps.IsEmpty())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No Replacement Steps found"));
+		return;
+	}
+	
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 	for (auto ReplacementStep : ReplacementSteps)
 	{
 		MissionSteps[ReplacementStep.Key]->Destroy();
-		
-		FVector Loc = Cast<AStepClass>(ReplacementStep.Value)->GetStepSpawnTransform().GetLocation();
-		FRotator Rot = Cast<AStepClass>(ReplacementStep.Value)->GetStepSpawnTransform().GetRotation().Rotator();
+		ReplacementStepClass = ReplacementStep.Value;
+
+		FVector Loc = ReplacementStepClass.GetDefaultObject()->GetStepSpawnTransform().GetLocation();
+		FRotator Rot = ReplacementStepClass.GetDefaultObject()->GetStepSpawnTransform().GetRotation().Rotator();
 		AStepClass* SpawnedStep = Cast<AStepClass>(GetWorld()->SpawnActor<AActor>(ReplacementStep.Value, Loc, Rot, SpawnParameters));
 
 		if (SpawnedStep == nullptr)
@@ -134,6 +140,11 @@ void ABountyClass::UpdateMissionSteps(TMap<int, TSubclassOf<AStepClass>> Replace
 		// DONT FORGET TO NOW USE THE NEW STEP TO REPLACE IT!!!!!!!!!
 
 		MissionSteps[ReplacementStep.Key] = SpawnedStep;
+		if (ReplacementStep.Key == 0)
+		{
+			MissionSteps[ReplacementStep.Key]->Active = true;
+			MissionSteps[ReplacementStep.Key]->CompletedStepDelegate.AddDynamic(this, &ABountyClass::IncrementMissionStep);
+		}
 		
 	}
 }

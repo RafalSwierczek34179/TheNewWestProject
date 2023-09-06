@@ -48,7 +48,7 @@ private:
 	// Currently active bounty
 	UPROPERTY(VisibleAnywhere, Category = "Bounty")
 	ABountyClass* ActiveBC;
-
+	
 	// Currently active supporting bounties
 	UPROPERTY(VisibleAnywhere, Category = "Bounty")
 	TArray<ASupportingBountyClass*> ActiveSBC;
@@ -70,6 +70,7 @@ protected:
 	void UpdateBountyDisplay();
 
 	// A supporting bounty has been completed and wants to update the main bounties steps
+	UFUNCTION()
 	void SBC_Completed(int SBC_Index);
 
 public:

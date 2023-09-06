@@ -11,6 +11,8 @@ UCLASS()
 class THENEWWESTPROJECT_API ABountyClass : public AActor
 {
 	GENERATED_BODY()
+
+	TSubclassOf<AStepClass> ReplacementStepClass;
 	
 public:	
 	ABountyClass();
