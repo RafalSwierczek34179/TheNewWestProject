@@ -178,4 +178,23 @@ void ABountyDirectorClass::SBC_Completed(int SBC_Index)
 	ActiveBC->UpdateMissionSteps(ActiveSBC[SBC_Index]->GetReplacementSteps());
 }
 
+FString ABountyDirectorClass::GetSBCTitle(int SBCIndex)
+{
+	if (SBCIndex > 2 || SBCIndex < 0 || ActiveSBC[SBCIndex] == nullptr)
+	{
+		return FString("");
+	}
+
+	return ActiveSBC[SBCIndex]->GetTitle();
+}
+
+FString ABountyDirectorClass::GetSBCDesc(int SBCIndex)
+{
+	if (SBCIndex > 2 || SBCIndex < 0 || ActiveSBC[SBCIndex] == nullptr)
+	{
+		return FString("");
+	}
+
+	return ActiveSBC[SBCIndex]->GetDescription();
+}
 

@@ -85,4 +85,10 @@ public:
 	{
 		return ActiveBC == nullptr ? FString("N/A") : ActiveBC->GetDescription();
 	}
+
+	UFUNCTION(BlueprintCallable, Category = "Bounty")
+	FString GetSBCTitle(int SBCIndex);
+
+	UFUNCTION(BlueprintCallable, Category = "Bounty")
+	FString GetSBCDesc(int SBCIndex);
 };
