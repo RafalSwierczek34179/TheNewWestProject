@@ -25,6 +25,12 @@ void ABountyDirectorClass::BeginPlay()
 		return;
 	}
 
+	// Setup a component on the player for bounties to attach to
+    for (UActorComponent* comp : PlayerChar->GetComponentsByTag(UArrowComponent::StaticClass(), FName("Bounty")))
+    {
+    	BountyAttachmnetPoint = Cast<UArrowComponent>(comp);
+    }
+
 	CurrentBountyIndex = 0;
 	for (int Index = 0; Index < 3; Index++)
 	{
@@ -44,7 +50,7 @@ void ABountyDirectorClass::BeginPlay()
 	// Spawn first bounty, attach it to the player char, and update active bounties array for mission ui
 	AActor* BountyActor = GetWorld()->SpawnActor<AActor>(BC_Array[CurrentBountyIndex], PlayerChar->GetActorLocation(), PlayerChar->GetActorRotation(), SpawnParams);
 	const FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
-	BountyActor->AttachToActor(PlayerChar->GetOwner(), AttachmentRules);
+	BountyActor->AttachToComponent(BountyAttachmnetPoint, AttachmentRules);
 	ActiveBC = Cast<ABountyClass>(BountyActor);
 	if (ActiveBC == nullptr)
 	{
@@ -64,10 +70,14 @@ void ABountyDirectorClass::BeginPlay()
 			continue;
 		}
 		ASupportingBountyClass* SBC = Cast<ASupportingBountyClass>(GetWorld()->SpawnActor<AActor>(SBC_Array[SBC_Index], PlayerChar->GetActorLocation(), PlayerChar->GetActorRotation(),SpawnParams));
-		SBC->AttachToActor(PlayerChar->GetOwner(), AttachmentRules);
+		SBC->AttachToComponent(BountyAttachmnetPoint, AttachmentRules);
 		ActiveSBC[ActiveSBC_Index] = SBC;
 		SBC->ActiveSBC_Index = ActiveSBC_Index;
 		ActiveSBC[ActiveSBC_Index]->CompletedSBC_Delegate.AddDynamic(this, &ABountyDirectorClass::SBC_Completed);
+		
+
+		PlayerChar->ActiveBounties.Add(ActiveSBC[ActiveSBC_Index]);
+
 		ActiveSBC_Index++;
 	}
 
@@ -111,6 +121,9 @@ void ABountyDirectorClass::FinishActiveBC()
 		{
 			continue;
 		}
+		
+		PlayerChar->ActiveBounties.Remove(SBC);
+
 		SBC->Destroy();
 	}
 
@@ -142,7 +155,7 @@ void ABountyDirectorClass::FinishActiveBC()
 
 	// Spawn and setup main bounty
 	AActor* BountyActor = GetWorld()->SpawnActor<AActor>(BC_Array[CurrentBountyIndex], PlayerChar->GetActorLocation(), PlayerChar->GetActorRotation(), SpawnParams);
-	BountyActor->AttachToActor(PlayerChar->GetOwner(), AttachmentRules);
+	BountyActor->AttachToComponent(BountyAttachmnetPoint, AttachmentRules);
 	ActiveBC = Cast<ABountyClass>(BountyActor);
 	// Main bounty must always be the first on the players bounty list so other bounties can override it
 	PlayerChar->ActiveBounties[0] = ActiveBC;
@@ -157,10 +170,14 @@ void ABountyDirectorClass::FinishActiveBC()
 			continue;
 		}
 		ASupportingBountyClass* SBC = Cast<ASupportingBountyClass>(GetWorld()->SpawnActor<AActor>(SBC_Array[SBC_Index], PlayerChar->GetActorLocation(), PlayerChar->GetActorRotation(),SpawnParams));
-		SBC->AttachToActor(PlayerChar->GetOwner(), AttachmentRules);
+		SBC->AttachToComponent(BountyAttachmnetPoint, AttachmentRules);
 		ActiveSBC[ActiveSBC_Index] = SBC;
 		SBC->ActiveSBC_Index = ActiveSBC_Index;
 		ActiveSBC[ActiveSBC_Index]->CompletedSBC_Delegate.AddDynamic(this, &ABountyDirectorClass::SBC_Completed);
+		
+
+		PlayerChar->ActiveBounties.Add(ActiveSBC[ActiveSBC_Index]);
+
 		ActiveSBC_Index++;
 	}
 

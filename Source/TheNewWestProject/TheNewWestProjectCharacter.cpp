@@ -241,17 +241,49 @@ void ATheNewWestProjectCharacter::CallShip(const FInputActionValue& Value)
 
 void ATheNewWestProjectCharacter::DisplayBountyUI_Implementation()
 {
-	if (ActiveBounties.IsEmpty() || ActiveBounties.Last() == nullptr)
+	// if (ActiveBounties.IsEmpty() || ActiveBounties.Last() == nullptr)
+	// {
+	// 	UE_LOG(LogTemp, Warning, TEXT("ActiveBounties array size: %d"), ActiveBounties.Num());
+	// 	WaypointLoc = FVector(0, 0, 0);
+	// 	WaypointIcon = nullptr;
+	// 	WaypointDesc = FString("No more Bounties mate, check DisplayBountyUI_Implementation() at projectCharacter.cpp");
+	// 	return;
+	// }
+
+	// WaypointLoc = ActiveBounties.Last()->GetActiveWaypointLoc();
+	// WaypointIcon = ActiveBounties.Last()->GetActiveWaypointIcon();
+	// WaypointDesc = ActiveBounties.Last()->GetActiveStepDesc();
+
+	if (ActiveBounties.IsEmpty())
 	{
-		WaypointLoc = FVector(0, 0, 0);
-		WaypointIcon = nullptr;
-		WaypointDesc = FString("No more Bounties mate, check DisplayBountyUI_Implementation() at projectCharacter.cpp");
+		WaypointLoc.Reset();
+		WaypointIcon.Reset();
+		WaypointDesc.Reset();
 		return;
 	}
+	
+	TArray<FVector> WaypointLocs;
+	TArray<UTexture2D*> WaypointIcons;
+	TArray<FString> WaypointDescs;
+	UE_LOG(LogTemp, Warning, TEXT("active bounties num: %d"), ActiveBounties.Num());
+	for (int i = 0; i < ActiveBounties.Num(); i++)
+	{
+		float Dist = FVector::Distance(GetActorLocation(), ActiveBounties[i]->GetStepLoc());
+		UE_LOG(LogTemp, Warning, TEXT("dist to bounty: %f"), Dist);
+		if ((i > 0) && (ActiveBounties[i] == nullptr || Dist >= 13000))
+		{
+			continue;
+		}
 
-	WaypointLoc = ActiveBounties.Last()->GetActiveWaypointLoc();
-	WaypointIcon = ActiveBounties.Last()->GetActiveWaypointIcon();
-	WaypointDesc = ActiveBounties.Last()->GetActiveStepDesc();
+		WaypointLocs.Add(ActiveBounties[i]->GetActiveWaypointLoc());
+		WaypointIcons.Add(ActiveBounties[i]->GetActiveWaypointIcon());
+		WaypointDescs.Add(ActiveBounties[i]->GetActiveStepDesc());
+	}
+
+	WaypointLoc = WaypointLocs;
+	WaypointIcon = WaypointIcons;
+	WaypointDesc = WaypointDescs;
+	
 }
 
 

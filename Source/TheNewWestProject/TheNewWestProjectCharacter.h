@@ -73,13 +73,13 @@ public:
 	TArray<ABountyClass*> ActiveBounties;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Bounty")
-	FVector WaypointLoc;
+	TArray<FVector> WaypointLoc;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Bounty")
-	UTexture2D* WaypointIcon;
+	TArray<UTexture2D*> WaypointIcon;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Bounty")
-	FString WaypointDesc;	
+	TArray<FString> WaypointDesc;	
 
 	// ------------------------------Functions-----------------------------------------------
 	UFUNCTION(BlueprintCallable, CAtegory="Health")

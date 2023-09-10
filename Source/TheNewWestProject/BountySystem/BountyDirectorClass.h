@@ -27,6 +27,9 @@ private:
 
 // -------- Properties ---------
 	ATheNewWestProjectCharacter* PlayerChar;
+
+	// Component used only for bounties to attach to the player
+	UArrowComponent* BountyAttachmnetPoint;
 	
 	// Ordered list of main bounties to spawn in
 	UPROPERTY(EditDefaultsOnly, Category = "Bounty")

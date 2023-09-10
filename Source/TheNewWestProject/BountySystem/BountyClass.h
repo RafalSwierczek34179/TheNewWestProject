@@ -58,6 +58,16 @@ public:
 		return Title;
 	}
 
+	FVector GetStepLoc()
+	{
+		if (MissionSteps.IsEmpty() || MissionSteps[0] == nullptr)
+		{
+			return FVector(0, 0, 0);
+		}
+
+		return MissionSteps[0]->GetStepSpawnTransform().GetLocation();
+	}
+
 	FVector GetActiveWaypointLoc()
 	{
 		if (MissionSteps.IsEmpty() || MissionSteps[0] == nullptr)
