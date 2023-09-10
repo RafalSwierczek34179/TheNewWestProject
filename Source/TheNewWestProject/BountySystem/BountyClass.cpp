@@ -65,8 +65,9 @@ void ABountyClass::IncrementMissionStep()
 	 *Check if the Array has another step, if not set completed to true
 	 *Else Destroy Current Step, shrink array, and set the new step in pos 0 to Active and apply delegate
 	 */
-	
-	if (MissionSteps.Num() <= 1)
+
+	// 2 because the final step will always be to return to the ship which can't be completed
+	if (MissionSteps.Num() <= 2)
 	{
 		Completed = true;
 		MissionSteps[0]->Active = false;

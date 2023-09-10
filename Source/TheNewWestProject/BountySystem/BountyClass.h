@@ -103,6 +103,16 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void CollectRewards();
 
+	void DestroyReturnToShipStep()
+	{
+		if (MissionSteps.Num() > 1)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Didn't Destroy final step as more than one steps still left in Bounty"));
+		}
+
+		MissionSteps[0]->Destroy();
+	}
+	
 	// Called by Bounty Director, replaces any steps to alter mission when a player completes a supporting bounty
 	void UpdateMissionSteps(TMap<int, TSubclassOf<AStepClass>> ReplacementSteps);
 	

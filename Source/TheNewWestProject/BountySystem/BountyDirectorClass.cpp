@@ -115,6 +115,7 @@ void ABountyDirectorClass::FinishActiveBC()
 
 	// Destroy old bounties
 	ActiveBC->Destroy();
+	ActiveBC->DestroyReturnToShipStep();
 	for (ASupportingBountyClass* SBC: ActiveSBC)
 	{
 		if (SBC == nullptr)
