@@ -270,6 +270,7 @@ void ATheNewWestProjectCharacter::DisplayBountyUI_Implementation()
 	{
 		float Dist = FVector::Distance(GetActorLocation(), ActiveBounties[i]->GetStepLoc());
 		UE_LOG(LogTemp, Warning, TEXT("dist to bounty: %f"), Dist);
+		
 		if ((i > 0) && (ActiveBounties[i] == nullptr || Dist >= 13000))
 		{
 			continue;
