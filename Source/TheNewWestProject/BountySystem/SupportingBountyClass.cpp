@@ -11,3 +11,17 @@ void ASupportingBountyClass::IncrementMissionStep()
 		CompletedSBC_Delegate.Broadcast(ActiveSBC_Index);
 	}
 }
+
+void ASupportingBountyClass::DestroySteps()
+{
+	for (int i = 0; i < MissionSteps.Num(); i++)
+	{
+		if (MissionSteps[i] == nullptr)
+		{
+			continue;
+		}
+
+		MissionSteps[i]->Destroy();
+	}
+}
+

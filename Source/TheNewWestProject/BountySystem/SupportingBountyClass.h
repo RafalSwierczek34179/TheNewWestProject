@@ -31,8 +31,9 @@ public:
 
 	FCompletedSBC CompletedSBC_Delegate;
 	
-
 	virtual void IncrementMissionStep() override;
+
+	void DestroySteps();
 	
 	
 };

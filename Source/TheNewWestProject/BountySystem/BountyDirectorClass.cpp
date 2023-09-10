@@ -124,6 +124,7 @@ void ABountyDirectorClass::FinishActiveBC()
 		
 		PlayerChar->ActiveBounties.Remove(SBC);
 
+		SBC->DestroySteps();
 		SBC->Destroy();
 	}
 
