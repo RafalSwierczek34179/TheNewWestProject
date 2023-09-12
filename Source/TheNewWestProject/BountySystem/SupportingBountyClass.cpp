@@ -3,6 +3,14 @@
 
 #include "SupportingBountyClass.h"
 
+void ASupportingBountyClass::BeginPlay()
+{
+	Super::BeginPlay();
+
+	MinStepsRequiredForCompletion = 1;
+}
+
+
 void ASupportingBountyClass::IncrementMissionStep()
 {
 	Super::IncrementMissionStep();

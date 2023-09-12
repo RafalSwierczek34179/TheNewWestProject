@@ -66,13 +66,14 @@ void ABountyClass::IncrementMissionStep()
 	 *Else Destroy Current Step, shrink array, and set the new step in pos 0 to Active and apply delegate
 	 */
 
-	// 2 because the final step will always be to return to the ship which can't be completed
-	if (MissionSteps.Num() <= 2)
+	
+	if (MissionSteps.Num() <= MinStepsRequiredForCompletion)
 	{
 		Completed = true;
 		MissionSteps[0]->Active = false;
 		MissionSteps[0]->Destroy();
 		MissionSteps.RemoveAt(0);
+		StepCompletionFeedbackUI(MissionSteps.Num() == 1 ? MissionSteps[0]->GetStepDescription() : FString("No more steps for this activity"));
 		UE_LOG(LogTemp, Warning, TEXT("You've Completed the mission!!! Well done"));
 		return;
 	}
@@ -91,7 +92,9 @@ void ABountyClass::IncrementMissionStep()
 	// Set the new step in position 0 to active and assign its delegate
 	MissionSteps[0]->Active = true;
 	MissionSteps[0]->CompletedStepDelegate.AddDynamic(this, &ABountyClass::IncrementMissionStep);
-	
+
+	UE_LOG(LogTemp, Warning, TEXT("Feedback UI should be appearing now"));
+	StepCompletionFeedbackUI(MissionSteps[0]->GetStepDescription());
 }
 
 void ABountyClass::CollectRewards_Implementation()

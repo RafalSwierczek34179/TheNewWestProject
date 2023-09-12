@@ -25,6 +25,12 @@ protected:
 protected:
 	bool Completed = false;
 
+	/** 2 because the final step will always be to return to the
+	 * ship which can't be completed, change this to 1 if final
+	 * step isn't to return to ship
+	*/
+	int MinStepsRequiredForCompletion = 2;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Bounty")
     	TArray<TSubclassOf<AStepClass>> StepsToSpawn;
 
@@ -41,6 +47,9 @@ protected:
 
 	// Spawns mission steps, stores them in MissionSteps Array in order and assigns their delegates
 	void SpawnSteps();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Bounty")
+	void StepCompletionFeedbackUI(const FString &NextStepDesc);
 
 public:
 	bool IsCompleted()

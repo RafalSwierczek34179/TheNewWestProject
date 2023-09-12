@@ -19,7 +19,9 @@ class THENEWWESTPROJECT_API ASupportingBountyClass : public ABountyClass
 
 	
 
-
+protected:
+	virtual void BeginPlay() override;
+	
 public:
 	// Set by Bounty Director, and used by director when deciding what SBC has been completed
 	int ActiveSBC_Index;
