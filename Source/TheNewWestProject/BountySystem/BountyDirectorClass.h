@@ -76,6 +76,9 @@ protected:
 	UFUNCTION()
 	void SBC_Completed(int SBC_Index);
 
+	UFUNCTION()
+	void DestroyActiveSBCs();
+
 public:
 	UFUNCTION(BlueprintCallable, Category = "Bounty")
 	FString GetBountyTitle()

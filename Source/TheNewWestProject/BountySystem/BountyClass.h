@@ -7,12 +7,16 @@
 #include "StepClass.h"
 #include "BountyClass.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCompletedFirstStep);
+
 UCLASS()
 class THENEWWESTPROJECT_API ABountyClass : public AActor
 {
 	GENERATED_BODY()
 
 	TSubclassOf<AStepClass> ReplacementStepClass;
+
+	bool hasBeenStarted = false;
 	
 public:	
 	ABountyClass();
@@ -52,6 +56,8 @@ protected:
 	void StepCompletionFeedbackUI(const FString &NextStepDesc);
 
 public:
+	FCompletedFirstStep CompletedFirstStep;
+	
 	bool IsCompleted()
 	{
 		return Completed;

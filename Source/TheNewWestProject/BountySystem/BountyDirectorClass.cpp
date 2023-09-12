@@ -59,6 +59,8 @@ void ABountyDirectorClass::BeginPlay()
 	}
 	PlayerChar->ActiveBounties.Add(ActiveBC);
 
+	ActiveBC->CompletedFirstStep.AddDynamic(this, &ABountyDirectorClass::DestroyActiveSBCs);
+
 	// Spawn all supporting bounties for the main bounty and set their ActiveSBC_Index
 	ActiveSBC.SetNum(3);
 	int ActiveSBC_Index = 0;
@@ -116,18 +118,7 @@ void ABountyDirectorClass::FinishActiveBC()
 	// Destroy old bounties
 	ActiveBC->Destroy();
 	ActiveBC->DestroyReturnToShipStep();
-	for (ASupportingBountyClass* SBC: ActiveSBC)
-	{
-		if (SBC == nullptr)
-		{
-			continue;
-		}
-		
-		PlayerChar->ActiveBounties.Remove(SBC);
-
-		SBC->DestroySteps();
-		SBC->Destroy();
-	}
+	DestroyActiveSBCs();
 
 	// Increment Bounty Indexes
 	CurrentBountyIndex++;
@@ -162,6 +153,8 @@ void ABountyDirectorClass::FinishActiveBC()
 	// Main bounty must always be the first on the players bounty list so other bounties can override it
 	PlayerChar->ActiveBounties[0] = ActiveBC;
 
+	ActiveBC->CompletedFirstStep.AddDynamic(this, &ABountyDirectorClass::DestroyActiveSBCs);
+	
 	// Spawn and setup supporting bounties
 	int ActiveSBC_Index = 0;
 	for (int SBC_Index : CurrentSBCIndexes)
@@ -186,6 +179,25 @@ void ABountyDirectorClass::FinishActiveBC()
 	UpdateBountyDisplay();
 }
 
+void ABountyDirectorClass::DestroyActiveSBCs()
+{
+	for (ASupportingBountyClass* SBC: ActiveSBC)
+	{
+		if (SBC == nullptr)
+		{
+			continue;
+		}
+		
+		PlayerChar->ActiveBounties.Remove(SBC);
+
+		SBC->DestroySteps();
+		SBC->Destroy();
+	}
+
+	UpdateBountyDisplay();
+}
+
+
 void ABountyDirectorClass::SBC_Completed(int SBC_Index)
 {
 	/**
@@ -195,6 +207,12 @@ void ABountyDirectorClass::SBC_Completed(int SBC_Index)
 	 */
 
 	ActiveBC->UpdateMissionSteps(ActiveSBC[SBC_Index]->GetReplacementSteps());
+
+	PlayerChar->ActiveBounties.Remove(ActiveSBC[SBC_Index]);
+	ActiveSBC[SBC_Index]->DestroySteps();
+	ActiveSBC[SBC_Index]->Destroy();
+
+	UpdateBountyDisplay();
 }
 
 FString ABountyDirectorClass::GetSBCTitle(int SBCIndex)

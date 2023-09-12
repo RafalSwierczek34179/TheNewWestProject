@@ -66,6 +66,12 @@ void ABountyClass::IncrementMissionStep()
 	 *Else Destroy Current Step, shrink array, and set the new step in pos 0 to Active and apply delegate
 	 */
 
+	// Broadcast that the first step has been completed so that side bounties can be destroyed
+	if (!hasBeenStarted)
+	{
+		hasBeenStarted = true;
+		CompletedFirstStep.Broadcast();
+	}
 	
 	if (MissionSteps.Num() <= MinStepsRequiredForCompletion)
 	{
@@ -92,8 +98,7 @@ void ABountyClass::IncrementMissionStep()
 	// Set the new step in position 0 to active and assign its delegate
 	MissionSteps[0]->Active = true;
 	MissionSteps[0]->CompletedStepDelegate.AddDynamic(this, &ABountyClass::IncrementMissionStep);
-
-	UE_LOG(LogTemp, Warning, TEXT("Feedback UI should be appearing now"));
+	
 	StepCompletionFeedbackUI(MissionSteps[0]->GetStepDescription());
 }
 
