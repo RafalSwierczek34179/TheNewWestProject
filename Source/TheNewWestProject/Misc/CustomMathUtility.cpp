@@ -20,6 +20,15 @@ void UCustomMathUtility::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 
 float UCustomMathUtility::WaypointScalingCalculator(float Distance)
 {
+	if (Distance <= 200)
+	{
+		return 0.2;
+	}
+	if (Distance <= 2000)
+	{
+		return ((Distance / 2250.0) + (1.0 / 9.0));
+	} 
+	
 	if (Distance <= 4000)
 	{		
 		return 1;

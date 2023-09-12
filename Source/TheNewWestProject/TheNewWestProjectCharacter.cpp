@@ -241,19 +241,6 @@ void ATheNewWestProjectCharacter::CallShip(const FInputActionValue& Value)
 
 void ATheNewWestProjectCharacter::DisplayBountyUI_Implementation()
 {
-	// if (ActiveBounties.IsEmpty() || ActiveBounties.Last() == nullptr)
-	// {
-	// 	UE_LOG(LogTemp, Warning, TEXT("ActiveBounties array size: %d"), ActiveBounties.Num());
-	// 	WaypointLoc = FVector(0, 0, 0);
-	// 	WaypointIcon = nullptr;
-	// 	WaypointDesc = FString("No more Bounties mate, check DisplayBountyUI_Implementation() at projectCharacter.cpp");
-	// 	return;
-	// }
-
-	// WaypointLoc = ActiveBounties.Last()->GetActiveWaypointLoc();
-	// WaypointIcon = ActiveBounties.Last()->GetActiveWaypointIcon();
-	// WaypointDesc = ActiveBounties.Last()->GetActiveStepDesc();
-
 	if (ActiveBounties.IsEmpty())
 	{
 		WaypointLoc.Reset();
@@ -325,6 +312,26 @@ float ATheNewWestProjectCharacter::CalculateDamageEffectOpacity()
  void ATheNewWestProjectCharacter::ToggleShipControlling()
  {
  	playerControllingShip = !playerControllingShip;
+
+	// Ship HUD
+	
+	if (!playerControllingShip)
+	{
+		DespawnShipHUD();
+		return;
+	}
+
+	TArray<FString> StepDescs;
+	TArray<UTexture2D*> WaypointIcons;
+	TArray<FVector> WaypointLocs;
+
+	for (ABountyClass* BC : ActiveBounties)
+	{
+		StepDescs.Add(BC->GetActiveStepDesc());
+		WaypointIcons.Add(BC->GetActiveWaypointIcon());
+		WaypointLocs.Add(BC->GetActiveWaypointLoc());
+	}
+	SpawnShipHUD(StepDescs, WaypointIcons, WaypointLocs);
  }
 
 //------------------------Misc--------------------------------------

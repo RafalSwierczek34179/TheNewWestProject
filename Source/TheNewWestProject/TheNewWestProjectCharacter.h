@@ -61,7 +61,12 @@ protected:
 	virtual void BeginPlay();
 
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
-	
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Waypoint")
+	void SpawnShipHUD(const TArray<FString> &StepDescs, const TArray<UTexture2D*> &WaypointIcons, const TArray<FVector> &WaypointLocs);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Waypoint")
+	void DespawnShipHUD();
 public:
 	ATheNewWestProjectCharacter();
 
