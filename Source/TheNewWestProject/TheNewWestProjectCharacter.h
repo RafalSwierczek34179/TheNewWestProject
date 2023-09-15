@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GadgetManager.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "TheNewWestProject/Misc/ShipControlComponent.h"
@@ -49,6 +50,8 @@ class ATheNewWestProjectCharacter : public ACharacter
                                                                                                               
 	bool playerControllingShip;
 
+	AGadgetManager* GadgetManager;
+	
 	// ------------------------------Functions-----------------------------------------------
 	/** Calls blueprint function on given object, returns true if called successfully */
 	bool CallBPFunction(AActor* actorWithFunc, FString funcName);
@@ -56,6 +59,8 @@ class ATheNewWestProjectCharacter : public ACharacter
 
 protected:
 	// 	------------------------------Properties-----------------------------------------------
+	UPROPERTY(EditDefaultsOnly, Category = "Gadget")
+	TSubclassOf<AGadgetManager> GadgetManagerClass;
 	
 	// ------------------------------Functions-----------------------------------------------
 	virtual void BeginPlay();
@@ -142,6 +147,12 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* HUDAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* ToggleReconGadgetAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* ToggleCombatGadgetAction;
+
 protected:
 	// Input Methods, jump method already exists and is run from ACharacter
 	void Look(const FInputActionValue& Value);
@@ -154,7 +165,7 @@ protected:
 
 	void ToggleCrouch(const FInputActionValue& Value);
 
-	void EquipGun(const FInputActionValue& Value);
+	void ToggleGun();
 
 	void Interact(const FInputActionValue& Value);
 
@@ -162,5 +173,9 @@ protected:
 
 	UFUNCTION(BlueprintNativeEvent, Category = "Player Character")
 	void DisplayBountyUI();
+
+	void ToggleReconGadget();
+
+	void ToggleCombatGadget();
 };
 

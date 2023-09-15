@@ -61,6 +61,12 @@ void ATheNewWestProjectCharacter::BeginPlay()
 		}
 	}
 
+	AActor* GadgetManagerActor = GetWorld()->SpawnActor<AActor>(GadgetManagerClass, GetActorLocation(), GetActorRotation());
+	GadgetManager = Cast<AGadgetManager>(GadgetManagerActor);
+	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
+	GadgetManagerActor->AttachToComponent(GetRootComponent(), AttachmentRules);
+	GadgetManager->SpawnGadgets(GetRootComponent());
+
 }
 
 //------------------------Input--------------------------------------
@@ -88,7 +94,7 @@ void ATheNewWestProjectCharacter::SetupPlayerInputComponent(class UInputComponen
 		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::ToggleCrouch);
 
 		//Equipping Gun
-		EnhancedInputComponent->BindAction(EquipGunAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::EquipGun);
+		EnhancedInputComponent->BindAction(EquipGunAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::ToggleGun);
 		
 		//Interacting
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::Interact);
@@ -98,6 +104,11 @@ void ATheNewWestProjectCharacter::SetupPlayerInputComponent(class UInputComponen
 
 		//Displaying Bounty Information
 		EnhancedInputComponent->BindAction(HUDAction, ETriggerEvent::Triggered, this, &ATheNewWestProjectCharacter::DisplayBountyUI);
+
+		//Equipping/Unequipping gadgets
+		EnhancedInputComponent->BindAction(ToggleReconGadgetAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::ToggleReconGadget);
+		EnhancedInputComponent->BindAction(ToggleCombatGadgetAction, ETriggerEvent::Started, this, &ATheNewWestProjectCharacter::ToggleCombatGadget);
+
 	}
 }
 
@@ -175,7 +186,7 @@ void ATheNewWestProjectCharacter::ToggleCrouch(const FInputActionValue& Value)
 	}
 }
 
-void ATheNewWestProjectCharacter::EquipGun(const FInputActionValue& Value)
+void ATheNewWestProjectCharacter::ToggleGun()
 {
 	switch (bHasRifle)
 	{
@@ -273,6 +284,34 @@ void ATheNewWestProjectCharacter::DisplayBountyUI_Implementation()
 	WaypointDesc = WaypointDescs;
 	
 }
+
+void ATheNewWestProjectCharacter::ToggleReconGadget()
+{
+	if (bHasRifle)
+	{
+		ToggleGun();
+	}
+
+	if (GadgetManager->IsItSafeToEquip())
+	{
+		GadgetManager->EquipRecon();
+	}
+}
+
+void ATheNewWestProjectCharacter::ToggleCombatGadget()
+{
+	if (bHasRifle)
+	{
+		ToggleGun();
+	}
+
+	if (GadgetManager->IsItSafeToEquip())
+	{
+		GadgetManager->EquipCombat();
+	}
+}
+
+
 
 
 //------------------------Health--------------------------------------
