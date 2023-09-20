@@ -3,7 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Gadget/GadgetBase.h"
+#include "CombatGadget.h"
+#include "ReconGadget.h"
+#include "GadgetBase.h"
 #include "GameFramework/Actor.h"
 #include "GadgetManager.generated.h"
 
@@ -19,15 +21,15 @@ protected:
 	virtual void BeginPlay() override;
 	// ------------------------------------------
 private:
-	AGadgetBase* ReconGadget;
-	AGadgetBase* CombatGadget;
+	AReconGadget* ReconGadget;
+	ACombatGadget* CombatGadget;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Gadget")
-	TSubclassOf<AGadgetBase> ReconClass;
+	TSubclassOf<AReconGadget> ReconClass;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Gadget")
-	TSubclassOf<AGadgetBase> CombatClass;
+	TSubclassOf<ACombatGadget> CombatClass;
 public:
 	void SpawnGadgets(USceneComponent* PlayersRootComp);
 

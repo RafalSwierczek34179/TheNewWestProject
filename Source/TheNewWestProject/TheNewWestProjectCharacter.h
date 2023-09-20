@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GadgetManager.h"
+#include "Gadget/GadgetManager.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "TheNewWestProject/Misc/ShipControlComponent.h"

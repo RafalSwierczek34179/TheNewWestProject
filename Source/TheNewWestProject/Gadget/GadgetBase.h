@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "EnhancedInputSubsystemInterface.h"
 #include "GadgetBP.h"
 #include "GameFramework/Actor.h"
 #include "GadgetBase.generated.h"
@@ -19,9 +20,7 @@ protected:
 	virtual void BeginPlay() override;
 // -----------------------------------------------------	
 private:
-	APlayerController* PlayerController;	
-
-	AGadgetBP* GadgetBP;
+	APlayerController* PlayerController;
 	
 	bool GadgetOnCooldown = false;
 	FTimerHandle CooldownHandle;
@@ -29,18 +28,16 @@ private:
 	bool GadgetInUse = false;
 	FTimerHandle InUseHandle;
 	
-	void StartGadgetCoolDown();
+	
 	void ReadyGadget()
 	{
-		GadgetOnCooldown = true;
+		UE_LOG(LogTemp, Warning, TEXT("Gadget is now ready to be used again"));
+		GadgetOnCooldown = false;
 	};
-	
-	void StartInUseTimer();
 
-	void CreateGadgetInput();
-	void DestroyGadgetInput();
-	
 protected:
+	AGadgetBP* GadgetVisual;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Gadget")
 	TSubclassOf<AGadgetBP> GadgetClass;
 
@@ -49,11 +46,19 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Gadget")
 	float GadgetMaxUpTime;
+	void StartInUseTimer();
+
 	UPROPERTY(EditDefaultsOnly, Category = "Gadget")
 	float CooldownTime;
+	void StartGadgetCoolDown();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Gadget")
+	UInputMappingContext* GadgetMappingContext;
+	UPROPERTY(EditDefaultsOnly, Category = "Gadget")
+	UInputAction* ActivateAction;
 
 	// Starts InUse timer if gadget isn't on cooldown, override to implement gadget behaviour
-	//virtual void Activate();
+	virtual void Activate();
 	// Starts Cooldown and automatically unequips gadget
 	void FinishedUsing();
 
@@ -61,11 +66,12 @@ public:
 	bool Equipped = false;
 
 	void Equip();
-	// Returns true if unequip succeeded
+	// Returns true if unequip succeeds
 	bool Unequip();
 
 	FVector GetSpawnOffset()
 	{
 		return SpawnOffset;
 	}
+
 };

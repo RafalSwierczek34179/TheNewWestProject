@@ -36,12 +36,12 @@ void AGadgetManager::SpawnGadgets(USceneComponent* PlayersRootComp)
 	const FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
 	
 	AActor* SpawnedActor = GetWorld()->SpawnActor<AActor>(ReconClass, GetActorLocation(), GetActorRotation(), SpawnParams);
-	ReconGadget = Cast<AGadgetBase>(SpawnedActor);
+	ReconGadget = Cast<AReconGadget>(SpawnedActor);
 	SpawnedActor->AttachToComponent(PlayersRootComp, AttachmentRules);
 	SpawnedActor->SetActorRelativeLocation(ReconGadget->GetSpawnOffset());
 
 	SpawnedActor = GetWorld()->SpawnActor<AActor>(CombatClass, GetActorLocation(), GetActorRotation(), SpawnParams);
-	CombatGadget = Cast<AGadgetBase>(SpawnedActor);
+	CombatGadget = Cast<ACombatGadget>(SpawnedActor);
 	SpawnedActor->AttachToComponent(PlayersRootComp, AttachmentRules);
 	SpawnedActor->SetActorRelativeLocation(CombatGadget->GetSpawnOffset());
 }
