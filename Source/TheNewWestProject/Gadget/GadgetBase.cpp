@@ -84,7 +84,6 @@ void AGadgetBase::FinishedUsing()
  	InUseHandle.Invalidate();
 	
 	StartGadgetCoolDown();
-	Unequip();
 }
 
 // ----------------- Timers -----------------

@@ -46,20 +46,6 @@ void AGadgetManager::SpawnGadgets(USceneComponent* PlayersRootComp)
 	SpawnedActor->SetActorRelativeLocation(CombatGadget->GetSpawnOffset());
 }
 
-bool AGadgetManager::IsItSafeToEquip()
-{
-	if (!ReconGadget->Equipped && !CombatGadget->Equipped)
-	{
-		return true;
-	}
-
-	if (ReconGadget->Equipped)
-	{
-		return ReconGadget->Unequip();
-	}
-	
-	return CombatGadget->Unequip();
-}
 
 
 

@@ -292,10 +292,19 @@ void ATheNewWestProjectCharacter::ToggleReconGadget()
 		ToggleGun();
 	}
 
-	if (GadgetManager->IsItSafeToEquip())
+	if (GadgetManager->IsReconEquipped())
 	{
-		GadgetManager->EquipRecon();
+		GadgetManager->TryToUnequipRecon();
+		return;
 	}
+
+	if (GadgetManager->IsCombatEquipped() && !GadgetManager->TryToUnequipCombat())
+	{
+		// Do nothing if combat is equipped and can't be unequipped at this moment
+		return;
+	}
+
+	GadgetManager->EquipRecon();
 }
 
 void ATheNewWestProjectCharacter::ToggleCombatGadget()
@@ -305,10 +314,19 @@ void ATheNewWestProjectCharacter::ToggleCombatGadget()
 		ToggleGun();
 	}
 
-	if (GadgetManager->IsItSafeToEquip())
+	if (GadgetManager->IsCombatEquipped())
 	{
-		GadgetManager->EquipCombat();
+		GadgetManager->TryToUnequipCombat();
+		return;
 	}
+
+	if (GadgetManager->IsReconEquipped() && !GadgetManager->TryToUnequipRecon())
+	{
+		// Do nothing if recon is equipped and can't be unequipped at the moment
+		return;
+	}
+
+	GadgetManager->EquipCombat();
 }
 
 

@@ -32,18 +32,43 @@ protected:
 	TSubclassOf<ACombatGadget> CombatClass;
 public:
 	void SpawnGadgets(USceneComponent* PlayersRootComp);
-
-	bool IsItSafeToEquip();
-
+	
 	void EquipRecon()
 	{
 		ReconGadget->Equip();
 	}
+	
 	void EquipCombat()
 	{
 		CombatGadget->Equip();
 	}
 	
+	bool IsReconEquipped()
+	{
+		return ReconGadget->Equipped;
+	}
+	
+	bool IsCombatEquipped()
+	{
+		return CombatGadget->Equipped;
+	}
 
+	bool TryToUnequipRecon()
+	{
+		if (ReconGadget->Equipped)
+		{
+			return ReconGadget->Unequip();
+		}
+		return false;
+	}
+
+	bool TryToUnequipCombat()
+	{
+		if (CombatGadget->Equipped)
+		{
+			return CombatGadget->Unequip();
+		}
+		return false;
+	}
 	
 };
