@@ -67,13 +67,7 @@ bool AGadgetBase::Unequip()
 
 void AGadgetBase::Activate()
 {
-	if (!GadgetInUse && !GadgetOnCooldown)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Gadget has been used"));
-		StartInUseTimer();
-	}
-	
-	// The rest is implemented in the inherited function
+	StartInUseTimer();
 }
 
 void AGadgetBase::FinishedUsing()

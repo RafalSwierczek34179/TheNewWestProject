@@ -18,17 +18,19 @@ public:
 	virtual void Tick(float DeltaTime) override;
 protected:
 	virtual void BeginPlay() override;
+	
 // -----------------------------------------------------	
 private:
 	APlayerController* PlayerController;
 	
-	bool GadgetOnCooldown = false;
 	FTimerHandle CooldownHandle;
-
-	bool GadgetInUse = false;
+	void StartGadgetCoolDown();
+	bool GadgetOnCooldown = false;
+	
 	FTimerHandle InUseHandle;
-	
-	
+	void StartInUseTimer();
+    bool GadgetInUse = false;
+
 	void ReadyGadget()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Gadget is now ready to be used again"));
@@ -44,23 +46,28 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Gadget")
 	FVector SpawnOffset = FVector(0, 0, 0);
 
+	bool GadgetCantBeActivated()
+	{
+		return GadgetOnCooldown || GadgetInUse;
+	}
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Gadget")
 	float GadgetMaxUpTime;
-	void StartInUseTimer();
-
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Gadget")
 	float CooldownTime;
-	void StartGadgetCoolDown();
+	
 
 	UPROPERTY(EditDefaultsOnly, Category = "Gadget")
 	UInputMappingContext* GadgetMappingContext;
 	UPROPERTY(EditDefaultsOnly, Category = "Gadget")
 	UInputAction* ActivateAction;
 
-	// Starts InUse timer if gadget isn't on cooldown, override to implement gadget behaviour
+	// Used by child classes to run custom gadget behaviour
 	virtual void Activate();
-	// Starts Cooldown and automatically unequips gadget
-	void FinishedUsing();
+
+	// Starts Cooldown and automatically unequips gadget, used by child classes to implement custom behaviour
+	virtual void FinishedUsing();
 
 public:
 	bool Equipped = false;
