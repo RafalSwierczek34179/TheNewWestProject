@@ -12,11 +12,12 @@ void AVisionLink::BeginPlay()
 
 void AVisionLink::Activate()
 {
-	UE_LOG(LogTemp, Warning, TEXT("A Vision link Activate is ran"));
+	
 	if (GadgetCantBeActivated())
 	{
 		return;
 	}
+	UE_LOG(LogTemp, Warning, TEXT("A Vision link Activate is ran"));
 	Super::Activate();
 	this->SetActorTickEnabled(true);
 	

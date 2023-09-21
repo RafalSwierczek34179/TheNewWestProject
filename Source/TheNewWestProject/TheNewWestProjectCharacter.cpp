@@ -201,6 +201,15 @@ void ATheNewWestProjectCharacter::ToggleGun()
 		break;
 	// Equip gun
 	case false:
+		if (GadgetManager->IsReconEquipped() && !GadgetManager->TryToUnequipRecon())
+		{
+			return;
+		}
+		if (GadgetManager->IsCombatEquipped() && !GadgetManager->TryToUnequipCombat())
+		{
+			return;
+		}
+		
 		bHasRifle = true;
 		// local vars needed for spawning and attaching gun to player
 		FVector loc = GetActorLocation() + FVector(-50, 0, 0);
